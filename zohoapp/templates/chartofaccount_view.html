@@ -1,0 +1,1011 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    /* width */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: rgb(252, 236, 217);
+
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+    #selected-area{
+        font-size: 20px;
+    }
+  
+    
+</style>
+
+
+
+<script>
+function printForm() {
+ 
+    var selectedArea = document.getElementById("selected-area");
+    
+
+    var printWindow = window.open('', 'PrintWindow', 'height=800,width=800');
+    
+
+    printWindow.document.write('<html><head><title>Print Selected Area</title></head><body>' + selectedArea.innerHTML + '</body></html>');
+    
+
+    printWindow.print();
+    
+    
+    printWindow.close();
+    }
+
+
+</script>
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="row  mx-2">
+            <div class="col-md-10"><a class="text-white" style="font-size: 1.3rem;"> All Accounts</a></div>
+            <div class="col-md-2 form-inline justify-content-end py-2">
+                <a href="" data-toggle="modal" data-target="#create_account" style="text-decoration: none;">New Account</a>
+                
+            </div>
+        </div>
+        <div class="pt-3" style="height: 450px;overflow-y: scroll;width: 100%;overflow-x: hidden;">
+            <table class="text-white" style="width: 100%;">
+                {% for view in view %}
+                <tr class="clickable-row" data-href="{% url 'chartofaccount_view' view.id%}">
+                    <td>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>{{view.account_name}}</h5>
+                            </div>
+                            <div class="col-md-6 text-right">{{view.account_type}}</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="clickable-row" data-href="{% url 'chartofaccount_view' view.id%}">
+                    <td>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <p>{{estimate.chellan_no}}</p>
+                            </div>
+                            <div class="col-md-3 text-left">
+                                <p>{{estimate.chellan_date}}</p>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <p>{{view.status}}</p>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td ><hr style="border-top: 1px solid white;"></td>
+                </tr>
+
+                {% endfor %}
+            </table>
+            
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="row  mx-1 py-3" style="background-color: rgba(252, 236, 217, 0.8)">
+            <div class="col-sm-5 text-dark" style="font-size: 2.5rem;">
+                <div class="col-sm-6 ">
+                    <h4 class="text-dark" style="text-transform: uppercase;">{{ind.account_name}}</h4>
+                    <h6 class="text-dark">{{ind.account_type}}</h6>
+                 
+                </div></div>
+            <div class="col-sm-7 text-white text-right my-auto">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href=""  data-toggle="modal"  data-target="#edit_account"  class="btn btn-dark m-1 text-white"
+                         title="Edit">
+                         <i class="mdi mdi-pencil"></i></a>
+                    <a href="" class="btn btn-dark m-1 text-white " 
+                        data-toggle="tooltip" title="PDF" id="pdf">
+                        <i class="mdi mdi-file-pdf-box"></i></a>
+                    <a href="" onclick="printForm()" class="btn btn-dark m-1 text-white btn_print" 
+                        data-toggle="tooltip" title="Print">
+                        <i class="mdi mdi-printer"></i></a>
+                    <a href="" class="btn btn-dark m-1 text-white"
+                         data-toggle="tooltip" title="Email">
+                        <i class="mdi mdi-email"></i></a>
+                    
+                    {% if estimate.attachment != ""%}
+                    <a href="" class="btn btn-dark m-1 text-white"
+                        data-toggle="tooltip" title="Download Attached File">
+                        <span class="mdi mdi-download"></span></a>
+                    {%endif%}
+
+                    
+                </div>
+
+                <a href="" class="btn btn-dark text-white"  
+                onclick="return confirm('Do you want to Delete this Estimate?');"><i class="mdi mdi-delete"></i></a>
+            </div>
+        </div>
+
+        
+            <div class="slip p-5 mx-1 convert_to_pdf bg-light" id="selected-area"
+                style="box-shadow: 5px 5px 10px rgb(45, 45, 45);">
+               
+                
+
+                <hr>
+                <div class="row ">
+                    <div class="col-sm-6 mt-auto">
+                        <h6 class="text-dark">CLOSING BALANCE</h6>
+                        <h3 class="text-dark">₹0.00</h3>
+                    </div>
+                    <div class="col-sm-6  mt-auto" style="text-align: right;">
+                        <h6 class="text-dark "></h6>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 mt-auto">
+                        <hr style="color: black;">                      
+                    </div>
+                    
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 mt-auto">
+                        <h6 class="text-dark">{{ind.description}}</h6>
+                        
+                    </div>
+                    
+                </div>
+                
+
+
+            </div>
+
+           
+
+         
+     
+    </div>
+</div>
+
+<form action="{% url 'create_account_view'%}" method="POST" enctype="multipart/form-data">
+    {% csrf_token%}
+    <div class="modal" id="create_account">
+      <div class="modal-dialog modal-xl modal-dialog-centered " role="document">
+        <div class="modal-content modal-xl p-5" style="background-color: #000000;">
+          <div class="modal-header">
+            <h5 class="modal-title text-info">Create Account</h5>
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+              style="font-size: 20px;background-color: #000000;border:none;">
+              <span aria-hidden="true">&times;</span> 
+            </button>
+          </div>
+  
+          <div class="row mt-4">
+            <div class="col-sm-8">
+              <div class="row">
+                <div class="col-sm-4">
+                  <label for="">Account Type:</label>
+                </div>
+                <div class="col-sm-8">
+  
+                  <select name="account_type" class="form-control text-dark bg-light" id="account_type" onchange="message()">
+                    <option value="" class="bg-dark text-light text-center" disabled>Assets</option>
+                    <option value="Other Assets" selected>Other Assets</option>
+                    <option value="Other Current Assets">Other Current Assets</option>
+                    <option value="Cash">Cash</option>
+                    <option value="Bank">Bank</option>
+                    <option value="Fixed Assets">Fixed Assets</option>
+                    <option value="Stock">Stock</option>
+                    <option value="Payment Clearing">Payment Clearing</option>
+  
+                    <option value="" class="bg-dark text-light text-center" disabled>Liability</option>
+                    <option value="Other Current Liability">Other Current Liability</option>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Long Term Liability">Long Term Liability</option>
+                    <option value="Other Liability">Other Liability</option>
+                    <option value="Overseas Tax Payable">Overseas Tax Payable</option>
+                   
+  
+                    <option value="" class="bg-dark text-light text-center" disabled>Eqity</option>
+                    <option value="Eqity">Eqity</option>
+  
+                    <option value="" class="bg-dark text-light text-center" disabled>Income</option>
+                    <option value="Income">Income</option>
+                    <option value="Other Income">Other Income</option>
+  
+                    <option value="" class="bg-dark text-light text-center" disabled>Expense</option>
+                    <option value="Expense">Expense</option>
+                    <option value="Cost Of Goods Sold">Cost Of Goods Sold</option>
+                    <option value="Other Expense">Other Expense</option>
+  
+                  </select>
+                </div>
+              </div>
+              <div id="name" style="display: block;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Account Name:</label>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control text-dark bg-light" name="account_name" id="account_name">
+                  </div>
+                </div>
+              </div> 
+  
+              <div id="credit" style="display: none;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Credit Card Name:</label>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control text-dark bg-light" name="credit_number" id="credit_number">
+                  </div>
+                </div>
+              </div>
+  
+              <div class="row mt-3">
+                <div class="col-sm-4">
+                  <label for=""></label>
+                </div>
+                <div class="col-sm-8">
+                  <div id="sub_div" style="display: none;">
+                    <input type="checkbox" class=" text-dark bg-light" onclick="show_parent()" name="sub_account" id="sub_account">
+  
+                    <label for="">Make this a sub-account</label>
+                  </div>
+                </div>
+              </div>
+              <div id="parent_div" style="display: none;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Parent Account:</label>
+                  </div>
+                  <div class="col-sm-8">
+                
+                    <select class="form-control text-dark bg-light" name="parent_account" id="parent_account">
+                      <option value="" class="bg-dark text-light text-center" disabled>Other Current Assets</option>
+                      <option value="Advance Tax">Advance Tax</option>
+                      <option value="Employee Advance">Employee Advance</option>
+                      <option value="Prepaid Expenses">Prepaid Expenses</option>
+                      <option value="TDS Receivable">TDS Receivable</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="row mt-3">
+                <div class="col-sm-4">
+                  <label for="">Account Code:</label>
+                </div>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control text-dark bg-light" name="account_code" id="account_code">
+                </div>
+              </div> 
+              <div style="display: none;" id="acc_bo_div">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Account Number:</label>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control text-dark bg-light" name="account_number" id="account_number">
+                  </div>
+                </div>
+              </div>
+  
+              <div style="display: none;" id="cr_div">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Currency:</label>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control text-dark bg-light" name="currency" id="currency">
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-sm-4">
+                  <label for="">Description:</label>
+                </div>
+                <div class="col-sm-8">
+                  <textarea name="description" class="form-control text-dark bg-light" id="description" placeholder="Max. 500 characters"></textarea>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-sm-4">
+                  <label for=""></label>
+                </div>
+                <div class="col-sm-8">
+                  <input type="checkbox" class=" text-dark bg-light" name="watchlist" id="watchlist">
+    
+                  <label for="">Add to the watchlist on my dashboardt</label>
+                </div>
+              </div>
+  
+            </div>
+  
+            <div class="col-sm-4">
+              <div class="alert alert-warning alert-dismissible fade show">
+                <span id="message_hd">Assets</span> <br>
+                <span id="message">Track special assets like goodwill and other intangible assets</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+  
+            </div>
+            
+            
+            
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <input class="btn btn-success" type="submit" value="Save">
+            
+              <input class="btn btn-light ml-3" type="reset" value="Cancel">
+            </div>
+          </div>
+          
+  
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+
+
+
+  <form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token%}
+    <div class="modal" id="edit_account">
+      <div class="modal-dialog modal-xl modal-dialog-centered " role="document">
+        <div class="modal-content modal-xl p-5" style="background-color: #000000;">
+          <div class="modal-header">
+            <h5 class="modal-title text-info">Edit Account</h5>
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+              style="font-size: 20px;background-color: #000000;border:none;">
+              <span aria-hidden="true">&times;</span> 
+            </button>
+          </div>
+  
+          <div class="row mt-4">
+            <div class="col-sm-8">
+              <div class="row">
+                <div class="col-sm-4">
+                  <label for="">Account Type:</label>
+                </div>
+                <div class="col-sm-8">
+  
+                  <select name="account_type" class="form-control text-dark bg-light" id="account_type1" onchange="message()" >
+                    <!-- <option value="" class="bg-dark text-light text-center" disabled>Assets</option> -->
+                    <option value="Other Assets" selected>{{ind.account_type}}</option>
+                    <!-- <option value="Other Current Assets">Other Current Assets</option>
+                    <option value="Cash">Cash</option>
+                    <option value="Bank">Bank</option>
+                    <option value="Fixed Assets">Fixed Assets</option>
+                    <option value="Stock">Stock</option>
+                    <option value="Payment Clearing">Payment Clearing</option>
+  
+                    <option value="" class="bg-dark text-light text-center" disabled>Liability</option>
+                    <option value="Other Current Liability">Other Current Liability</option>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Long Term Liability">Long Term Liability</option>
+                    <option value="Other Liability">Other Liability</option>
+                    <option value="Overseas Tax Payable">Overseas Tax Payable</option>
+                   
+  
+                    <option value="" class="bg-dark text-light text-center" disabled>Eqity</option>
+                    <option value="Eqity">Eqity</option>
+  
+                    <option value="" class="bg-dark text-light text-center" disabled>Income</option>
+                    <option value="Income">Income</option>
+                    <option value="Other Income">Other Income</option>
+  
+                    <option value="" class="bg-dark text-light text-center" disabled>Expense</option>
+                    <option value="Expense">Expense</option>
+                    <option value="Cost Of Goods Sold">Cost Of Goods Sold</option>
+                    <option value="Other Expense">Other Expense</option>
+   -->
+                  </select>
+                </div>
+              </div>
+              <div id="name" style="display: block;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Account Name:</label>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control text-dark bg-light" name="account_name1" id="account_name" value="{{ind.account_name}}">
+                  </div>
+                </div>
+              </div> 
+  
+              <div id="credit" style="display: none;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Credit Card Name:</label>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control text-dark bg-light" name="credit_number" id="credit_number">
+                  </div>
+                </div>
+              </div>
+  
+              <div class="row mt-3">
+                <div class="col-sm-4">
+                  <label for=""></label>
+                </div>
+                <div class="col-sm-8">
+                  <div id="sub_div" style="display: none;">
+                    <!-- <input type="checkbox" class=" text-dark bg-light" onclick="show_parent()" name="sub_account" id="sub_account"> -->
+  
+                    <!-- <label for="">Make this a sub-account</label> -->
+                  </div>
+                </div>
+              </div>
+              <!-- <div id="parent_div" style="display: none;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Parent Account:</label>
+                  </div>
+                  <div class="col-sm-8">
+                
+                    <select class="form-control text-dark bg-light" name="parent_account" id="parent_account">
+                      <option value="" class="bg-dark text-light text-center" disabled>Other Current Assets</option>
+                      <option value="Advance Tax">Advance Tax</option>
+                      <option value="Employee Advance">Employee Advance</option>
+                      <option value="Prepaid Expenses">Prepaid Expenses</option>
+                      <option value="TDS Receivable">TDS Receivable</option>
+                    </select>
+                  </div>
+                </div>
+              </div> -->
+  
+              <div class="row mt-3">
+                <div class="col-sm-4">
+                  <label for="">Account Code:</label>
+                </div>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control text-dark bg-light" name="account_code" id="account_code" value="{{ind.account_code}}">
+                </div>
+              </div> 
+              <!-- <div style="display: none;" id="acc_bo_div">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Account Number:</label>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control text-dark bg-light" name="account_number" id="account_number">
+                  </div>
+                </div>
+              </div> -->
+  
+              <!-- <div style="display: none;" id="cr_div">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Currency:</label>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control text-dark bg-light" name="currency" id="currency">
+                  </div>
+                </div>
+              </div> -->
+              <div class="row mt-3">
+                <div class="col-sm-4">
+                  <label for="">Description:</label>
+                </div>
+                <div class="col-sm-8">
+                  <textarea name="description" class="form-control text-dark bg-light" id="description" placeholder="Max. 500 characters">{{ind.description}}</textarea>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-sm-4">
+                  <label for=""></label>
+                </div>
+                <div class="col-sm-8">
+                  <input type="checkbox" class=" text-dark bg-light" name="watchlist" id="watchlist">
+    
+                  <label for="">Add to the watchlist on my dashboard</label>
+                </div>
+              </div>
+  
+            </div>
+  
+            <div class="col-sm-4">
+              {% if ind.account_type == "Expense" %}
+              <div class="alert alert-warning alert-dismissible fade show">
+                <span id="message_hd1">Expense</span> <br>
+                <span id="message1">
+                  Reflects expenses incurred for running normal business operations, such as :<ul><li>Advertisements and Marketing</li> <li>Business Travel Expenses</li><li>Advertisements and Marketing</li> <li>Business Travel Expenses</li> <li>Utility Expenses</li></ul>
+                </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+              {% endif %}
+              {% if ind.account_type == "Other Assets" %}
+              <div class="alert alert-warning alert-dismissible fade show">
+                <span id="message_hd1">Assets</span> <br>
+                <span id="message1">
+                  Track special assets like goodwill and other intangible assets
+                </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+              {% endif %}
+              {% if ind.account_type == "Other Current Assets" %}
+              <div class="alert alert-warning alert-dismissible fade show">
+                <span id="message_hd1">Assets</span> <br>
+                <span id="message1">
+                  Any short term asset that can be converted into cash or cash equivalents easily 
+                  <ul><li>Prepaid expenses</li> <li>Stocks and Mutual Funds</li></ul>
+               </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+              {% endif %}
+
+              {% if ind.account_type == "Cash" %}
+              <div class="alert alert-warning alert-dismissible fade show">
+                <span id="message_hd1">Assets</span> <br>
+                <span id="message1">
+                  To keep track of cash and other cash equivalents like petty cash, undeposited funds, etc.
+               </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+              {% endif %}
+
+              {% if ind.account_type == "Cash" %}
+              <div class="alert alert-warning alert-dismissible fade show">
+                <span id="message_hd1">Assets</span> <br>
+                <span id="message1">
+                  To keep track of cash and other cash equivalents like petty cash, undeposited funds, etc.
+               </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+              {% endif %}
+
+              {% if ind.account_type == "Bank" %}
+              <div class="alert alert-warning alert-dismissible fade show">
+                <span id="message_hd1">Assets</span> <br>
+                <span id="message1">
+                  To keep track of bank accounts like Savings, Checking, and Money Market accounts   
+                 </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+              {% endif %}
+
+              {% if ind.account_type == "Fixed Assets" %}
+              <div class="alert alert-warning alert-dismissible fade show">
+                <span id="message_hd1">Assets</span> <br>
+                <span id="message1">
+                  Any long term investment or an asset that cannot be converted into cash easily like: 
+                  <ul><li>Land and Buildings</li> <li>Plant, Machinery and Equipment</li> <li>Computers</li> <li>Furniture</li></ul>
+                </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+              {% endif %}
+
+              {% if ind.account_type == "Stock" %}
+              <div class="alert alert-warning alert-dismissible fade show">
+                <span id="message_hd1">Assets</span> <br>
+                <span id="message1">
+                  To keep track of your inventory assets.
+                <ul><li>Land and Buildings</li> <li>Plant, Machinery and Equipment</li> <li>Computers</li> <li>Furniture</li></ul>                 
+              </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+              {% endif %}
+
+              {% if ind.account_type == "Payment Clearing" %}
+              <div class="alert alert-warning alert-dismissible fade show">
+                <span id="message_hd1">Assets</span> <br>
+                <span id="message1">
+                  To keep track of funds moving in and out via payment processors like Stripe, PayPal, etc.<ul><li>Land and Buildings</li> <li>Plant, Machinery and Equipment</li> <li>Computers</li> <li>Furniture</li></ul>                
+                 </span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+              {% endif %}
+
+              {% if ind.account_type == " Other Current Liability" %}
+              <div class="alert alert-warning alert-dismissible fade show">
+                <span id="message_hd1">Liability</span> <br>
+                <span id="message1">
+                  Any short term liability like:
+                 <ul><li>Customer Deposits</li> <li>Tax Payable</li></ul>
+                </span>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+              {% endif %}
+
+              {% if ind.account_type == " Credit Card" %}
+              <div class="alert alert-warning alert-dismissible fade show">
+                <span id="message_hd1">Liability</span> <br>
+                <span id="message1">
+                  Create a trail of all your credit card transactions by creating a credit card account </span>
+                                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+              {% endif %}
+
+              {% if ind.account_type == " Long Term Liability" %}
+              <div class="alert alert-warning alert-dismissible fade show">
+                <span id="message_hd1">Liability</span> <br>
+                <span id="message1">
+                  Liabilities that mature after a minimum period of one year like Notes Payable, Debentures, and Long Term Loans </span>              
+                   <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+              {% endif %}
+              {% if ind.account_type == "Other Liability" %}
+              <div class="alert alert-warning alert-dismissible fade show">
+                <span id="message_hd1">Liability</span> <br>
+                <span id="message1">
+                  Obligation of an entity arising from past transactions or events which would require repayment.
+                  <ul><li>Tax to be paid</li> <li>Loan to be Repaid</li> <li>Accounts Payable etc</li> </ul></span>
+
+                  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+              </div>
+              {% endif %}
+
+              {% if ind.account_type == "Overseas Tax Payable" %}
+              <div class="alert alert-warning alert-dismissible fade show">
+                <span id="message_hd1">Liability</span> <br>
+                <span id="message1">
+                  Track your taxes in this account if your business sells digital services to foreign customers.</span>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+                </div>
+              {% endif %}
+
+              {% if ind.account_type == "Eqity" %}
+              <div class="alert alert-warning alert-dismissible fade show">
+                <span id="message_hd1">Eqity</span> <br>
+                <span id="message1">
+                  Owners or stakeholders interest on the assets of the business after deducting all the liabilities
+
+                  </span>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+              {% endif %}
+
+              {% if ind.account_type == "Income" %}
+              <div class="alert alert-warning alert-dismissible fade show">
+                <span id="message_hd1">Income</span> <br>
+                <span id="message1">
+                  Income or Revenue earned from normal business activities like sale of goods and services to customers
+                  </span>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+              {% endif %}
+
+              {% if ind.account_type == "Other Income" %}
+              <div class="alert alert-warning alert-dismissible fade show">
+                <span id="message_hd1">Income</span> <br>
+                <span id="message1">
+                  Income or revenue earned from activties not directly related to your business like :<ul><li>Interest Earned</li> <li>Dividend Earned</li></ul>                 
+                </span>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+              {% endif %}
+
+              {% if ind.account_type == "Cost Of Goods Sold" %}
+              <div class="alert alert-warning alert-dismissible fade show">
+                <span id="message_hd1">Expense</span> <br>
+                <span id="message1">
+                  This indicates the direct costs attributable to the production of the goods sold by a company such as:<ul><li>Material and Labor costs</li> <li>Cost of obtaining raw materials</li></ul>
+                </span>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+              {% endif %}
+
+              {% if ind.account_type == "Other Expense" %}
+              <div class="alert alert-warning alert-dismissible fade show">
+                <span id="message_hd1">Expense</span> <br>
+                <span id="message1">
+                  Track miscellaneous expenses incurred for activities other than primary business operations or create additional accounts to track default expenses like insurance or contribution towards charity.
+                </span>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+              {% endif %}
+
+  
+            </div>
+            
+            
+            
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <input class="btn btn-success" type="submit" value="Save">
+            
+              <input class="btn btn-light ml-3" type="reset" value="Cancel">
+            </div>
+          </div>
+          
+  
+        </div>
+      </div>
+    </div>
+  </form>
+  
+  
+  <script>
+    function message() {
+    
+      var vals= document.getElementById('account_type').value
+      console.log(vals)
+      if(vals == "Other Assets"){
+        document.getElementById('message_hd').innerHTML = "Assets"
+        document.getElementById('message').innerHTML = "Track special assets like goodwill and other intangible assets"
+  
+      }else if(vals == "Other Current Assets"){
+        document.getElementById('message_hd').innerHTML = "Assets"
+        document.getElementById('message').innerHTML = ""
+        document.getElementById("cr_div").style.display="none";
+        document.getElementById("acc_bo_div").style.display="none";
+        document.getElementById("sub_div").style.display="block";
+        document.getElementById("name").style.display="block";
+        document.getElementById("credit").style.display="none";
+  
+        $('#message').append(
+          `Any short term asset that can be converted into cash or cash equivalents easily 
+          <ul><li>Prepaid expenses</li> <li>Stocks and Mutual Funds</li></ul>`
+        )
+  
+      }else if(vals == "Cash"){
+        document.getElementById('message_hd').innerHTML = "Assets"
+        document.getElementById('message').innerHTML = ""
+        document.getElementById("sub_div").style.display="block";
+        document.getElementById("cr_div").style.display="none";
+        document.getElementById("acc_bo_div").style.display="none";
+        document.getElementById("name").style.display="block";
+        document.getElementById("credit").style.display="none";
+        $('#message').append(
+          `To keep track of cash and other cash equivalents like petty cash, undeposited funds, etc.`
+        )
+  
+      }else if(vals == "Bank"){
+        document.getElementById('message_hd').innerHTML = "Assets"
+        document.getElementById('message').innerHTML = ""
+        document.getElementById("cr_div").style.display="block";
+        document.getElementById("acc_bo_div").style.display="block";
+        document.getElementById("sub_div").style.display="none";
+        document.getElementById("name").style.display="block";
+        document.getElementById("credit").style.display="none";
+  
+        $('#message').append(
+          `To keep track of bank accounts like Savings, Checking, and Money Market accounts`
+        )
+  
+      }else if(vals == "Fixed Assets"){
+        document.getElementById('message_hd').innerHTML = "Assets"
+        document.getElementById('message').innerHTML = ""
+        document.getElementById("sub_div").style.display="block";
+        document.getElementById("name").style.display="block";
+        document.getElementById("credit").style.display="none";
+  
+        document.getElementById("cr_div").style.display="none";
+        document.getElementById("acc_bo_div").style.display="none";
+        $('#message').append(
+          `Any long term investment or an asset that cannot be converted into cash easily like: 
+          <ul><li>Land and Buildings</li> <li>Plant, Machinery and Equipment</li> <li>Computers</li> <li>Furniture</li></ul>`
+        )
+  
+      }else if(vals == "Stock"){
+        document.getElementById('message_hd').innerHTML = "Assets"
+        document.getElementById('message').innerHTML = "" 
+        document.getElementById("sub_div").style.display="none";
+        document.getElementById("name").style.display="block";
+        document.getElementById("credit").style.display="none";
+        document.getElementById("acc_bo_div").style.display="none";
+        document.getElementById("cr_div").style.display="none";
+        $('#message').append(
+          `To keep track of your inventory assets.`
+        )
+  
+      }else if(vals == "Payment Clearing"){
+        document.getElementById('message_hd').innerHTML = "Assets"
+        document.getElementById('message').innerHTML = ""
+        document.getElementById("sub_div").style.display="none";
+        document.getElementById("name").style.display="block";
+        document.getElementById("credit").style.display="none";
+        document.getElementById("acc_bo_div").style.display="none";
+        document.getElementById("cr_div").style.display="none";
+        $('#message').append(
+          `To keep track of funds moving in and out via payment processors like Stripe, PayPal, etc.`
+        )
+  
+      }else if(vals == "Other Current Liability"){
+        document.getElementById('message_hd').innerHTML = "Liability"
+        document.getElementById('message').innerHTML = ""
+        document.getElementById("sub_div").style.display="block";
+        document.getElementById("cr_div").style.display="none";
+        document.getElementById("acc_bo_div").style.display="none";
+        document.getElementById("name").style.display="block";
+        document.getElementById("credit").style.display="none";
+  
+        $('#message').append(
+          `Any short term liability like:
+          <ul><li>Customer Deposits</li> <li>Tax Payable</li></ul>`
+        )
+  
+      }else if(vals == "Credit Card"){
+        document.getElementById('message_hd').innerHTML = "Liability"
+        document.getElementById('message').innerHTML = ""
+        document.getElementById("name").style.display="none";
+        document.getElementById("credit").style.display="block";
+        document.getElementById("cr_div").style.display="block";
+        document.getElementById("sub_div").style.display="none";
+        document.getElementById("acc_bo_div").style.display="none";
+   
+        $('#message').append(
+          `Create a trail of all your credit card transactions by creating a credit card account`
+        )
+  
+      }else if(vals == "Long Term Liability"){
+        document.getElementById('message_hd').innerHTML = "Liability"
+        document.getElementById('message').innerHTML = ""
+        document.getElementById("cr_div").style.display="none";
+        document.getElementById("name").style.display="block";
+        document.getElementById("credit").style.display="none";
+        document.getElementById("sub_div").style.display="block";
+        document.getElementById("acc_bo_div").style.display="none";
+      
+        $('#message').append(
+          `Liabilities that mature after a minimum period of one year like Notes Payable, Debentures, and Long Term Loans`
+        )
+  
+      }else if(vals == "Other Liability"){
+        document.getElementById('message_hd').innerHTML = "Liability"
+        document.getElementById('message').innerHTML = ""
+  
+        document.getElementById("cr_div").style.display="none";
+        document.getElementById("name").style.display="block";
+        document.getElementById("credit").style.display="none";
+        document.getElementById("sub_div").style.display="none";
+        document.getElementById("acc_bo_div").style.display="none";
+     
+  
+        $('#message').append(
+          `Obligation of an entity arising from past transactions or events which would require repayment.<ul><li>Tax to be paid</li> <li>Loan to be Repaid</li> <li>Accounts Payable etc</li> </ul>`
+        )
+  
+      }else if(vals == "Overseas Tax Payable"){
+        document.getElementById('message_hd').innerHTML = "Liability"
+        document.getElementById('message').innerHTML = ""
+        document.getElementById("cr_div").style.display="none";
+        document.getElementById("name").style.display="block";
+        document.getElementById("credit").style.display="none";
+        document.getElementById("sub_div").style.display="none";
+        document.getElementById("acc_bo_div").style.display="none";
+  
+  
+        $('#message').append(
+          `Track your taxes in this account if your business sells digital services to foreign customers.`
+        )
+  
+      }else if(vals == "Eqity"){
+        document.getElementById('message_hd').innerHTML = "Eqity"
+        document.getElementById('message').innerHTML = ""
+        document.getElementById("cr_div").style.display="none";
+        document.getElementById("name").style.display="block";
+        document.getElementById("credit").style.display="none";
+        document.getElementById("sub_div").style.display="block";
+        document.getElementById("acc_bo_div").style.display="none";
+  
+        $('#message').append(
+          `Owners or stakeholders interest on the assets of the business after deducting all the liabilities`
+        )
+  
+      }else if(vals == "Income"){
+        document.getElementById('message_hd').innerHTML = "Income"
+        document.getElementById('message').innerHTML = ""
+  
+        document.getElementById("cr_div").style.display="none";
+        document.getElementById("name").style.display="block";
+        document.getElementById("credit").style.display="none";
+        document.getElementById("sub_div").style.display="block";
+        document.getElementById("acc_bo_div").style.display="none";
+  
+        $('#message').append(
+          `Income or Revenue earned from normal business activities like sale of goods and services to customers`
+        )
+  
+      }else if(vals == "Other Income"){
+        document.getElementById('message_hd').innerHTML = "Income"
+        document.getElementById('message').innerHTML = ""
+        document.getElementById("cr_div").style.display="none";
+        document.getElementById("name").style.display="block";
+        document.getElementById("credit").style.display="none";
+        document.getElementById("sub_div").style.display="none";
+        document.getElementById("acc_bo_div").style.display="none";
+  
+        $('#message').append(
+          `Income or revenue earned from activties not directly related to your business like :<ul><li>Interest Earned</li> <li>Dividend Earned</li></ul>`
+        )
+  
+      }else if(vals == "Expense"){
+        document.getElementById('message_hd').innerHTML = "Expense"
+        document.getElementById('message').innerHTML = ""
+  
+        document.getElementById("cr_div").style.display="none";
+        document.getElementById("name").style.display="block";
+        document.getElementById("credit").style.display="none";
+        document.getElementById("sub_div").style.display="block";
+        document.getElementById("acc_bo_div").style.display="none";
+  
+        $('#message').append(
+          `Reflects expenses incurred for running normal business operations, such as :<ul><li>Advertisements and Marketing</li> <li>Business Travel Expenses</li><li>Advertisements and Marketing</li> <li>Business Travel Expenses</li> <li>Utility Expenses</li></ul>`
+        )
+  
+      }else if(vals == "Cost Of Goods Sold"){
+        document.getElementById('message_hd').innerHTML = "Expense"
+        document.getElementById('message').innerHTML = ""
+        document.getElementById("cr_div").style.display="none";
+        document.getElementById("name").style.display="block";
+        document.getElementById("credit").style.display="none";
+        document.getElementById("sub_div").style.display="block";
+        document.getElementById("acc_bo_div").style.display="none";
+  
+        $('#message').append(
+          `This indicates the direct costs attributable to the production of the goods sold by a company such as:<ul><li>Material and Labor costs</li> <li>Cost of obtaining raw materials</li></ul>`
+        )
+  
+      }else if(vals == "Other Expense"){
+        document.getElementById('message_hd').innerHTML = "Expense"
+        document.getElementById('message').innerHTML = ""
+  
+        document.getElementById("cr_div").style.display="none";
+        document.getElementById("name").style.display="block";
+        document.getElementById("credit").style.display="none";
+        document.getElementById("sub_div").style.display="none";
+        document.getElementById("acc_bo_div").style.display="none";
+  
+        $('#message').append(
+          `Track miscellaneous expenses incurred for activities other than primary business operations or create additional accounts to track default expenses like insurance or contribution towards charity.`
+        )
+  
+      }
+  
+  
+      
+      
+  };
+  </script>
+  
+  <script>
+    function show_parent(){
+      var chk = document.getElementById("sub_account").checked
+  
+      if(chk== true){
+        document.getElementById("parent_div").style.display="block";
+      }else{
+        document.getElementById("parent_div").style.display="none";
+      }
+    }
+  </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+<script>
+    // Add click event listener to all rows with class "clickable-row"
+    const rows = document.querySelectorAll('.clickable-row');
+    rows.forEach(row => {
+        row.addEventListener('click', () => {
+            // Get the URL from the "data-href" attribute
+            const url = row.getAttribute('data-href');
+            // Navigate to the URL
+            window.location.href = url;
+        });
+    });
+</script>
+
+
+
+
+{% endblock %}
