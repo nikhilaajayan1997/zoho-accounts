@@ -365,7 +365,7 @@ function printForm() {
 
 
 
-  <form action="" method="POST" enctype="multipart/form-data">
+  <form action="{% url 'edit_chart_of_account' ind.id %}" method="POST" enctype="multipart/form-data">
     {% csrf_token%}
     <div class="modal" id="edit_account">
       <div class="modal-dialog modal-xl modal-dialog-centered " role="document">
@@ -386,36 +386,9 @@ function printForm() {
                 </div>
                 <div class="col-sm-8">
   
-                  <select name="account_type" class="form-control text-dark bg-light" id="account_type1" onchange="message()" >
-                    <!-- <option value="" class="bg-dark text-light text-center" disabled>Assets</option> -->
-                    <option value="Other Assets" selected>{{ind.account_type}}</option>
-                    <!-- <option value="Other Current Assets">Other Current Assets</option>
-                    <option value="Cash">Cash</option>
-                    <option value="Bank">Bank</option>
-                    <option value="Fixed Assets">Fixed Assets</option>
-                    <option value="Stock">Stock</option>
-                    <option value="Payment Clearing">Payment Clearing</option>
-  
-                    <option value="" class="bg-dark text-light text-center" disabled>Liability</option>
-                    <option value="Other Current Liability">Other Current Liability</option>
-                    <option value="Credit Card">Credit Card</option>
-                    <option value="Long Term Liability">Long Term Liability</option>
-                    <option value="Other Liability">Other Liability</option>
-                    <option value="Overseas Tax Payable">Overseas Tax Payable</option>
-                   
-  
-                    <option value="" class="bg-dark text-light text-center" disabled>Eqity</option>
-                    <option value="Eqity">Eqity</option>
-  
-                    <option value="" class="bg-dark text-light text-center" disabled>Income</option>
-                    <option value="Income">Income</option>
-                    <option value="Other Income">Other Income</option>
-  
-                    <option value="" class="bg-dark text-light text-center" disabled>Expense</option>
-                    <option value="Expense">Expense</option>
-                    <option value="Cost Of Goods Sold">Cost Of Goods Sold</option>
-                    <option value="Other Expense">Other Expense</option>
-   -->
+                  <select name="account_type1" class="form-control text-dark bg-light" id="account_type1" onchange="message()" disabled>
+                    <option value="{{ind.account_type}}" selected>{{ind.account_type}}</option>
+                 
                   </select>
                 </div>
               </div>
@@ -430,7 +403,7 @@ function printForm() {
                 </div>
               </div> 
   
-              <div id="credit" style="display: none;">
+              <!-- <div id="credit" style="display: none;">
                 <div class="row mt-3">
                   <div class="col-sm-4">
                     <label for="">Credit Card Name:</label>
@@ -439,38 +412,375 @@ function printForm() {
                     <input type="text" class="form-control text-dark bg-light" name="credit_number" id="credit_number">
                   </div>
                 </div>
-              </div>
+              </div> -->
   
               <div class="row mt-3">
                 <div class="col-sm-4">
                   <label for=""></label>
                 </div>
                 <div class="col-sm-8">
-                  <div id="sub_div" style="display: none;">
-                    <!-- <input type="checkbox" class=" text-dark bg-light" onclick="show_parent()" name="sub_account" id="sub_account"> -->
+                  {% if ind.account_type == 'Other Current Assets' %}
+                  <div id="sub_div1" style="display: block;">
+                    <input type="checkbox" class=" text-dark bg-light" onclick="show_parent1()" name="sub_account1" id="sub_account1">
   
-                    <!-- <label for="">Make this a sub-account</label> -->
+                    <label for="">Make this a sub-account</label>
                   </div>
+                  {% endif %}
+
+                  {% if ind.account_type == 'Cash' %}
+                  <div id="sub_div2" style="display: block;">
+                    <input type="checkbox" class=" text-dark bg-light" onclick="show_parent2()" name="sub_account2" id="sub_account2">
+  
+                    <label for="">Make this a sub-account</label>
+                  </div>
+                  {% endif %}
+
+                  {% if ind.account_type == 'Fixed Assets' %}
+                  <div id="sub_div2" style="display: block;">
+                    <input type="checkbox" class=" text-dark bg-light" onclick="show_parent3()" name="sub_account3" id="sub_account3">
+  
+                    <label for="">Make this a sub-account</label>
+                  </div>
+                  {% endif %}
+
+                  {% if ind.account_type == 'Stock' %}
+                  <div id="sub_div2" style="display: block;">
+                    <input type="checkbox" class=" text-dark bg-light" onclick="show_parent4()" name="sub_account4" id="sub_account4">
+  
+                    <label for="">Make this a sub-account</label>
+                  </div>
+                  {% endif %}
+
+                  {% if ind.account_type == 'Other Current Liability' %}
+                  <div id="sub_div2" style="display: block;">
+                    <input type="checkbox" class=" text-dark bg-light" onclick="show_parent5()" name="sub_account5" id="sub_account5">
+  
+                    <label for="">Make this a sub-account</label>
+                  </div>
+                  {% endif %}
+
+                  {% if ind.account_type == 'Long Term Liability' %}
+                  <div id="sub_div2" style="display: block;">
+                    <input type="checkbox" class=" text-dark bg-light" onclick="show_parent6()" name="sub_account6" id="sub_account6">
+  
+                    <label for="">Make this a sub-account</label>
+                  </div>
+                  {% endif %}
+
+                  {% if ind.account_type == 'Other Liability' %}
+                  <div id="sub_div2" style="display: block;">
+                    <input type="checkbox" class=" text-dark bg-light" onclick="show_parent7()" name="sub_account7" id="sub_account7"> 
+                    <label for="">Make this a sub-account</label>
+                  </div>
+                  {% endif %}
+
+                  {% if ind.account_type == 'Eqity' %}
+                  <div id="sub_div2" style="display: block;">
+                    <input type="checkbox" class=" text-dark bg-light" onclick="show_parent8()" name="sub_account8" id="sub_account8"> 
+                    <label for="">Make this a sub-account</label>
+                  </div>
+                  {% endif %}
+
+                  {% if ind.account_type == 'Income' %}
+                  <div id="sub_div2" style="display: block;">
+                    <input type="checkbox" class=" text-dark bg-light" onclick="show_parent9()" name="sub_account9" id="sub_account9"> 
+                    <label for="">Make this a sub-account</label>
+                  </div>
+                  {% endif %}
+
+                  {% if ind.account_type == 'Expense' %}
+                  <div id="sub_div2" style="display: block;">
+                    <input type="checkbox" class=" text-dark bg-light" onclick="show_parent10()" name="sub_account10" id="sub_account10"> 
+                    <label for="">Make this a sub-account</label>
+                  </div>
+                  {% endif %}
+
+                  {% if ind.account_type == 'Cost Of Goods Sold' %}
+                  <div id="sub_div2" style="display: block;">
+                    <input type="checkbox" class=" text-dark bg-light" onclick="show_parent11()" name="sub_account11" id="sub_account11"> 
+                    <label for="">Make this a sub-account</label>
+                  </div>
+                  {% endif %}
+
+                  {% if ind.account_type == 'Other Expense' %}
+                  <div id="sub_div2" style="display: block;">
+                    <input type="checkbox" class=" text-dark bg-light" onclick="show_parent12()" name="sub_account12" id="sub_account12"> 
+                    <label for="">Make this a sub-account</label>
+                  </div>
+                  {% endif %}
+
+
                 </div>
               </div>
-              <!-- <div id="parent_div" style="display: none;">
+              <div id="parent_div1" style="display: none;">
                 <div class="row mt-3">
                   <div class="col-sm-4">
                     <label for="">Parent Account:</label>
                   </div>
                   <div class="col-sm-8">
                 
-                    <select class="form-control text-dark bg-light" name="parent_account" id="parent_account">
+                    <select class="form-control text-dark bg-light" name="parent_account1" id="parent_account1">
                       <option value="" class="bg-dark text-light text-center" disabled>Other Current Assets</option>
+                      <option value="" class="bg-dark text-light text-center" selected></option>
                       <option value="Advance Tax">Advance Tax</option>
                       <option value="Employee Advance">Employee Advance</option>
                       <option value="Prepaid Expenses">Prepaid Expenses</option>
                       <option value="TDS Receivable">TDS Receivable</option>
+                      <option value="TDS Receivable">Input Tax Credits</option>
+                      <option value="TDS Receivable">Reserve Charge Tax Input But not Due</option>
+                      <option value="TDS Receivable">Sales to Customers(Cash)</option>
                     </select>
                   </div>
                 </div>
-              </div> -->
+              </div>
+              <div id="parent_div2" style="display: none;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Parent Account:</label>
+                  </div>
+                  <div class="col-sm-8">
+                
+                    <select class="form-control text-dark bg-light" name="parent_account2" id="parent_account2">
+                      <option value="" class="bg-dark text-light text-center" disabled>Cash</option>
+                      <option value="" class="bg-dark text-light text-center" selected></option>
+
+                      <option value="Petty Cash">Petty Cash</option>
+                      <option value="Undeposited Fund">Undeposited Fund</option>
+                      
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div id="parent_div3" style="display: none;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Parent Account:</label>
+                  </div>
+                  <div class="col-sm-8">
+                
+                    <select class="form-control text-dark bg-light" name="parent_account3" id="parent_account3">
+                      <option value="" class="bg-dark text-light text-center" disabled>Fixed Asset</option>
+                      <option value="" class="bg-dark text-light text-center" selected></option>
+
+                      <option value="Furniture and Equipment">Furniture and Equipment</option>
+                      
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div id="parent_div4" style="display: none;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Parent Account:</label>
+                  </div>
+                  <div class="col-sm-8">
+                
+                    <select class="form-control text-dark bg-light" name="parent_account4" id="parent_account4">
+                      <option value="" class="bg-dark text-light text-center" disabled>Stock</option>
+                      <option value="" class="bg-dark text-light text-center" selected></option>
+
+                      <option value="Inventory Asset">Inventory Asset</option>
+                      
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div id="parent_div5" style="display: none;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Parent Account:</label>
+                  </div>
+                  <div class="col-sm-8">
+                
+                    <select class="form-control text-dark bg-light" name="parent_account5" id="parent_account5">
+                      <option value="" class="bg-dark text-light text-center" disabled>Other Current Liability</option>
+                      <option value="" class="bg-dark text-light text-center" selected></option>
+
+                      <option value="Employee Reimbursements">Employee Reimbursements</option>
+                      <option value="Opening Balance Adjustments">Opening Balance Adjustments</option>
+                      <option value="Tax Payable">Tax Payable</option>
+                      <option value="Unearned Revenue">Unearned Revenue</option>
+                      <option value="GST Payable">GST Payable</option>
+                      <optgroup>
+                        <option value="Output CGST">Output CGST</option>
+                        <option value="Output IGST">Output IGST</option>
+                        <option value="Output SGST">Output SGST</option>
+
+                      </optgroup>
+                      <option value="TDS Payable">TDS Payable</option>
+
+
+                      
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div id="parent_div6" style="display: none;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Parent Account:</label>
+                  </div>
+                  <div class="col-sm-8">
+                
+                    <select class="form-control text-dark bg-light" name="parent_account6" id="parent_account6">
+                      <option value="" class="bg-dark text-light text-center" disabled>Long Term Liability</option>
+                      <option value="" selected></option>
+                      <option value="Construction Loans">Construction Loans</option>
+                      <option value="Mortgages">Mortgages</option>
+
+                      
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div id="parent_div7" style="display: none;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Parent Account:</label>
+                  </div>
+                  <div class="col-sm-8">
+                
+                    <select class="form-control text-dark bg-light" name="parent_account7" id="parent_account7">
+                      <option value="" class="bg-dark text-light text-center" disabled>Other Liability</option>
+                      <option value="" selected></option>
+                      <option value="Tag Adjustments">Tag Adjustments</option>                     
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div id="parent_div8" style="display: none;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Parent Account:</label>
+                  </div>
+                  <div class="col-sm-8">
+                
+                    <select class="form-control text-dark bg-light" name="parent_account8" id="parent_account8">
+                      <option value="" class="bg-dark text-light text-center" disabled>Equity</option>
+                      <option value="" selected></option>
+                      <option value="Drawings">Drawings</option>                     
+                      <option value="Opening Balance Offset">Opening Balance Offset</option>                     
+                      <option value="Owner's Equity">Owner's Equity</option>                     
+                      <option value="Retained Earnings">Retained Earnings</option>                     
+                      <option value="Capital Stock">Capital Stock</option>                     
+                      <option value="Distributions">Distributions</option>  
+                      <option value="Dividends Paid">Dividends Paid</option>                     
+                      <option value="Investments">Investments</option>                     
+                   
+
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div id="parent_div9" style="display: none;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Parent Account:</label>
+                  </div>
+                  <div class="col-sm-8">
+                
+                    <select class="form-control text-dark bg-light" name="parent_account9" id="parent_account9">
+                      <option value="" class="bg-dark text-light text-center" disabled>Income</option>
+                      <option value="" selected></option>
+                      <option value="Discount">Discount</option>                     
+                      <option value="General Income">General Income</option>                     
+                      <option value="Interest Income">Interest Income</option>                     
+                      <option value="Late Fee Income">Late Fee Income</option>                     
+                      <option value="Other Charges">Other Charges</option>                     
+                      <option value="sales">sales</option>  
+                      <option value="Shipping Charge">Shipping Charge</option>                     
+                   
+
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div id="parent_div10" style="display: none;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Parent Account:</label>
+                  </div>
+                  <div class="col-sm-8">
+                
+                    <select class="form-control text-dark bg-light" name="parent_account10" id="parent_account10">
+                      <option value="" class="bg-dark text-light text-center" disabled>Income</option>
+                      <option value="" selected></option>
+                      <option value="Discount">Discount</option>                     
+                      <option value="Advertising and Marketing">Advertising and Marketing</option>                     
+                      <option value="Automobile Expense">Automobile Expense</option>                     
+                      <option value="Bad Debt">Bad Debt</option>                     
+                      <option value="Bank Fees and Charges">Bank Fees and Charges</option>                     
+                      <option value="Consultant Expense">Consultant Expense</option>  
+                      <option value="Credit Card Charges">Credit Card Charges</option> 
+                      <option value="Depreciation Expense">Depreciation Expense</option>                     
+                      <option value="IT and Internet Expenses">IT and Internet Expenses</option>                     
+                      <option value="Ganitorial Expense">Ganitorial Expense</option>                     
+                      <option value="Lodging">Lodging</option>                     
+                      <option value="Meals and Entertainment">Meals and Entertainment</option> 
+                      <option value="Office Supplies">Office Supplies</option>                     
+                      <option value="Other Expenses">Other Expenses</option>                     
+                      <option value="Postage">Postage</option>                     
+                      <option value="Printing and Stationery">Printing and Stationery</option>                     
+                      <option value="Rent Expense">Rent Expense</option>    
+                      <option value="Repairs and Maintenance">Repairs and Maintenance</option>                     
+                      <option value="Salaries and Employee Wages">Salaries and Employee Wages</option>                     
+                      <option value="Telephone Expense">Telephone Expense</option>                     
+                      <option value="Travel Expense">Travel Expense</option>                     
+                      <option value="Uncategorized">Uncategorized</option>   
+                      <option value="Contract Assets">Contract Assets</option>                     
+
+                      <option value="Depreciation And Amortisation">Depreciation And Amortisation</option>                     
+                      <option value="Merchandise">Merchandise</option>                     
+                      <option value="Raw Materials And Consumables">Raw Materials And Consumables</option>                     
+                      <option value="Transportation Expense">Uncategorized</option>                     
+
+
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div id="parent_div11" style="display: none;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Parent Account:</label>
+                  </div>
+                  <div class="col-sm-8">
+                
+                    <select class="form-control text-dark bg-light" name="parent_account11" id="parent_account11">
+                      <option value="" class="bg-dark text-light text-center" disabled>Cost Of Goods Sold</option>
+                      <option value="" selected></option>
+                      <option value="Cost Of Goods Sold">Cost Of Goods Sold</option>                     
+                      <option value="Job Costing">Job Costing</option>                     
+                      <option value="Labor">Labor</option>                     
+                      <option value="Materials">Materials</option>                     
+                      <option value="Subcontractor">Subcontractor</option>                     
+                      
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div id="parent_div12" style="display: none;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Parent Account:</label>
+                  </div>
+                  <div class="col-sm-8">
+                
+                    <select class="form-control text-dark bg-light" name="parent_account12" id="parent_account12">
+                      <option value="" class="bg-dark text-light text-center" disabled>Other Expense</option>
+                      <option value="" selected></option>
+                      <option value="Cost Of Goods Sold">Exchange Gain or Loss</option>                                          
+                    </select>
+                  </div>
+                </div>
+              </div>
   
+
+
               <div class="row mt-3">
                 <div class="col-sm-4">
                   <label for="">Account Code:</label>
@@ -479,7 +789,8 @@ function printForm() {
                   <input type="text" class="form-control text-dark bg-light" name="account_code" id="account_code" value="{{ind.account_code}}">
                 </div>
               </div> 
-              <!-- <div style="display: none;" id="acc_bo_div">
+              {% if ind.account_type == "Bank" %}
+              <div style="display: block;" id="acc_bo_div">
                 <div class="row mt-3">
                   <div class="col-sm-4">
                     <label for="">Account Number:</label>
@@ -488,18 +799,43 @@ function printForm() {
                     <input type="text" class="form-control text-dark bg-light" name="account_number" id="account_number">
                   </div>
                 </div>
-              </div> -->
+              </div>
   
-              <!-- <div style="display: none;" id="cr_div">
+              <div style="display: block;" id="cr_div">
                 <div class="row mt-3">
                   <div class="col-sm-4">
                     <label for="">Currency:</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control text-dark bg-light" name="currency" id="currency">
+                    <select class="form-control text-dark bg-light" name="parent_account22" id="parent_account22">
+                      <option value="" class="bg-dark text-light text-center" disabled selected>Select Option</option>
+                      
+                      
+                    </select>
                   </div>
                 </div>
-              </div> -->
+              </div>
+              {% endif %}
+
+              {% if ind.account_type == "Credit Card" %}
+
+              <div style="display: block;" id="cr_div1">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Currency:</label>
+                  </div>
+                  <div class="col-sm-8">
+                    <select class="form-control text-dark bg-light" name="parent_account32" id="parent_account32">
+                      <option value="" class="bg-dark text-light text-center" disabled selected>Select Option</option>
+                      
+                      
+                    </select>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+
+
               <div class="row mt-3">
                 <div class="col-sm-4">
                   <label for="">Description:</label>
@@ -561,7 +897,7 @@ function printForm() {
               </div>
               {% endif %}
 
-              {% if ind.account_type == "Cash" %}
+              <!-- {% if ind.account_type == "Cash" %}
               <div class="alert alert-warning alert-dismissible fade show">
                 <span id="message_hd1">Assets</span> <br>
                 <span id="message1">
@@ -569,7 +905,7 @@ function printForm() {
                </span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
               </div>
-              {% endif %}
+              {% endif %} -->
 
               {% if ind.account_type == "Bank" %}
               <div class="alert alert-warning alert-dismissible fade show">
@@ -982,12 +1318,137 @@ function printForm() {
   <script>
     function show_parent(){
       var chk = document.getElementById("sub_account").checked
+
   
       if(chk== true){
         document.getElementById("parent_div").style.display="block";
       }else{
         document.getElementById("parent_div").style.display="none";
       }
+    }
+
+    function show_parent1(){
+      var chk = document.getElementById("sub_account1").checked
+
+  
+      
+        if(chk== true){
+        document.getElementById("parent_div1").style.display="block";
+      }else{
+        document.getElementById("parent_div1").style.display="none";
+      }
+
+     
+    }
+    function show_parent2(){
+      var chk2 = document.getElementById("sub_account2").checked
+     
+        if(chk2== true){
+        document.getElementById("parent_div2").style.display="block";
+      }else{
+        document.getElementById("parent_div2").style.display="none";
+      }
+      
+    }
+    function show_parent3(){
+      var chk3 = document.getElementById("sub_account3").checked
+     
+        if(chk3== true){
+        document.getElementById("parent_div3").style.display="block";
+      }else{
+        document.getElementById("parent_div3").style.display="none";
+      }
+      
+    }
+    function show_parent4(){
+      var chk4 = document.getElementById("sub_account4").checked
+     
+        if(chk4== true){
+        document.getElementById("parent_div4").style.display="block";
+      }else{
+        document.getElementById("parent_div4").style.display="none";
+      }
+      
+    }
+
+    function show_parent5(){
+      var chk5 = document.getElementById("sub_account5").checked
+     
+        if(chk5== true){
+        document.getElementById("parent_div5").style.display="block";
+      }else{
+        document.getElementById("parent_div5").style.display="none";
+      }      
+    }
+
+    function show_parent6(){
+      var chk6 = document.getElementById("sub_account6").checked
+     
+        if(chk6== true){
+        document.getElementById("parent_div6").style.display="block";
+      }else{
+        document.getElementById("parent_div6").style.display="none";
+      }      
+    }
+
+    function show_parent7(){
+      var chk7 = document.getElementById("sub_account7").checked
+     
+        if(chk7== true){
+        document.getElementById("parent_div7").style.display="block";
+      }else{
+        document.getElementById("parent_div7").style.display="none";
+      }      
+    }
+
+    function show_parent8(){
+      var chk8 = document.getElementById("sub_account8").checked
+     
+        if(chk8== true){
+        document.getElementById("parent_div8").style.display="block";
+      }else{
+        document.getElementById("parent_div8").style.display="none";
+      }      
+    }
+
+    function show_parent9(){
+      var chk9 = document.getElementById("sub_account9").checked
+     
+        if(chk9== true){
+        document.getElementById("parent_div9").style.display="block";
+      }else{
+        document.getElementById("parent_div9").style.display="none";
+      }      
+    }
+
+    function show_parent10(){
+      var chk10 = document.getElementById("sub_account10").checked
+     
+        if(chk10== true){
+        document.getElementById("parent_div10").style.display="block";
+      }else{
+        document.getElementById("parent_div10").style.display="none";
+      }      
+    }
+
+    function show_parent11(){
+      var chk11 = document.getElementById("sub_account11").checked
+     
+        if(chk11== true){
+        document.getElementById("parent_div11").style.display="block";
+      }else{
+        document.getElementById("parent_div11").style.display="none";
+      }      
+    }
+
+    function show_parent12(){
+      var chk12 = document.getElementById("sub_account12").checked
+     
+        if(chk12== true){
+        document.getElementById("parent_div12").style.display="block";
+      }else{
+        document.getElementById("parent_div12").style.display="none";
+      }      
     }
   </script>
 

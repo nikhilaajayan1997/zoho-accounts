@@ -2962,3 +2962,25 @@ def create_account_view(request):
         a.save()
         return redirect('chartofaccount_home')
     return redirect('chartofaccount_home')
+
+def edit_chart_of_account(request,id):
+    if request.method=='POST':
+        a=Chart_of_Account()
+        cur_user = request.user
+        user = User.objects.get(id=cur_user.id)
+        a.user = user
+        a.account_type = request.POST.get("account_type1",None)
+        a.account_name = request.POST.get("account_name1",None)
+        a.account_code = request.POST.get("account_code",None)
+        a.description = request.POST.get("description",None)
+        a.watchlist = request.POST.get("watchlist",None)
+        a.status="inactive"
+
+        if a.account_type=="Other Current Assets":        
+            a.sub_account = request.POST.get("sub_account1",None)
+            a.parent_account = request.POST.get("parent_account1",None)
+            a.bank_account_no = "null"
+            a.currency = "null"
+
+
+
