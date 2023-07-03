@@ -2963,9 +2963,9 @@ def create_account_view(request):
         return redirect('chartofaccount_home')
     return redirect('chartofaccount_home')
 
-def edit_chart_of_account(request,id):
+def edit_chart_of_account(request,pk):
     if request.method=='POST':
-        a=Chart_of_Account()
+        a=Chart_of_Account.objects.get(id=pk)
         cur_user = request.user
         user = User.objects.get(id=cur_user.id)
         a.user = user
@@ -2978,9 +2978,44 @@ def edit_chart_of_account(request,id):
 
         if a.account_type=="Other Current Assets":        
             a.sub_account = request.POST.get("sub_account1",None)
-            a.parent_account = request.POST.get("parent_account1",None)
+            if a.sub_account=='on':
+               a.parent_account = request.POST.get("parent_account1",None)
+            else:
+               a.parent_account = "null"
             a.bank_account_no = "null"
             a.currency = "null"
+
+        if a.account_type=="Cash":        
+            a.sub_account = request.POST.get("sub_account2",None)
+            if a.sub_account=='on':
+               a.parent_account = request.POST.get("parent_account2",None)
+            else:
+               a.parent_account = "null"
+            a.bank_account_no = "null"
+            a.currency = "null"
+
+        if a.account_type=="Fixed Assets":        
+            a.sub_account = request.POST.get("sub_account3",None)
+            if a.sub_account=='on':
+               a.parent_account = request.POST.get("parent_account3",None)
+            else:
+               a.parent_account = "null"           
+            a.bank_account_no = "null"
+            a.currency = "null"
+        
+        if a.account_type=="Stock":        
+            a.sub_account = request.POST.get("sub_account4",None)
+            if a.sub_account=='on':
+               a.parent_account = request.POST.get("parent_account4",None)
+            else:
+               a.parent_account = "null"
+            a.bank_account_no = "null"
+            a.currency = "null"
+        
+        a.save()
+        return redirect('chartofaccount_home')
+    return redirect('chartofaccount_home')
+
 
 
 

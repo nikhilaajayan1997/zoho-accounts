@@ -276,6 +276,7 @@ function printForm() {
                 
                     <select class="form-control text-dark bg-light" name="parent_account" id="parent_account">
                       <option value="" class="bg-dark text-light text-center" disabled>Other Current Assets</option>
+                      <option value="" selected></option>
                       <option value="Advance Tax">Advance Tax</option>
                       <option value="Employee Advance">Employee Advance</option>
                       <option value="Prepaid Expenses">Prepaid Expenses</option>
@@ -386,7 +387,7 @@ function printForm() {
                 </div>
                 <div class="col-sm-8">
   
-                  <select name="account_type1" class="form-control text-dark bg-light" id="account_type1" onchange="message()" disabled>
+                  <select name="account_type1" class="form-control text-dark bg-light" id="account_type1" onchange="message()">
                     <option value="{{ind.account_type}}" selected>{{ind.account_type}}</option>
                  
                   </select>
@@ -421,32 +422,50 @@ function printForm() {
                 <div class="col-sm-8">
                   {% if ind.account_type == 'Other Current Assets' %}
                   <div id="sub_div1" style="display: block;">
+                    {% if ind.sub_account == 'on' %} 
+
+                    <input type="checkbox" class=" text-dark bg-light" onclick="show_parent1()" name="sub_account1" id="sub_account1" checked>
+                    {% else %}
                     <input type="checkbox" class=" text-dark bg-light" onclick="show_parent1()" name="sub_account1" id="sub_account1">
-  
+                    {% endif %}
                     <label for="">Make this a sub-account</label>
+                   
                   </div>
                   {% endif %}
 
                   {% if ind.account_type == 'Cash' %}
                   <div id="sub_div2" style="display: block;">
+                    {% if ind.sub_account == 'on' %} 
+
+                    <input type="checkbox" class=" text-dark bg-light" onclick="show_parent2()" name="sub_account2" id="sub_account2" checked>
+                    {% else %}
                     <input type="checkbox" class=" text-dark bg-light" onclick="show_parent2()" name="sub_account2" id="sub_account2">
-  
+
+                    {% endif %}
                     <label for="">Make this a sub-account</label>
                   </div>
                   {% endif %}
 
                   {% if ind.account_type == 'Fixed Assets' %}
                   <div id="sub_div2" style="display: block;">
+                    {% if ind.sub_account == 'on' %} 
+                    <input type="checkbox" class=" text-dark bg-light" onclick="show_parent3()" name="sub_account3" id="sub_account3" checked>
+
+                    {% else %}
                     <input type="checkbox" class=" text-dark bg-light" onclick="show_parent3()" name="sub_account3" id="sub_account3">
-  
+
+                    {% endif %}
                     <label for="">Make this a sub-account</label>
                   </div>
                   {% endif %}
 
                   {% if ind.account_type == 'Stock' %}
                   <div id="sub_div2" style="display: block;">
+                    {% if ind.sub_account == 'on' %} 
+                    <input type="checkbox" class=" text-dark bg-light" onclick="show_parent4()" name="sub_account4" id="sub_account4" checked>
+                    {% else %}
                     <input type="checkbox" class=" text-dark bg-light" onclick="show_parent4()" name="sub_account4" id="sub_account4">
-  
+                    {% endif %}
                     <label for="">Make this a sub-account</label>
                   </div>
                   {% endif %}
@@ -512,6 +531,32 @@ function printForm() {
 
                 </div>
               </div>
+
+       <!-- .................................................................................        -->
+       {% if ind.account_type == 'Other Current Assets' %}
+
+            {% if ind.sub_account == 'on' %}
+              <div id="parent_div1" style="display: block;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Parent Account:</label>
+                  </div>
+                  <div class="col-sm-8">                
+                    <select class="form-control text-dark bg-light" name="parent_account1" id="parent_account1">
+                      <option value="" class="bg-dark text-light text-center" disabled>Other Current Assets</option>
+                      <option value="{{ ind.parent_account }}" class="bg-dark text-light text-center" selected>{{ ind.parent_account }}</option>
+                      <option value="Advance Tax">Advance Tax</option>
+                      <option value="Employee Advance">Employee Advance</option>
+                      <option value="Prepaid Expenses">Prepaid Expenses</option>
+                      <option value="TDS Receivable">TDS Receivable</option>
+                      <option value="TDS Receivable">Input Tax Credits</option>
+                      <option value="TDS Receivable">Reserve Charge Tax Input But not Due</option>
+                      <option value="TDS Receivable">Sales to Customers(Cash)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              {% else %}
               <div id="parent_div1" style="display: none;">
                 <div class="row mt-3">
                   <div class="col-sm-4">
@@ -533,6 +578,32 @@ function printForm() {
                   </div>
                 </div>
               </div>
+              {% endif %}
+              {% endif %}
+
+              {% if ind.account_type == 'Cash' %}
+
+              {% if ind.sub_account == 'on' %}
+
+              <div id="parent_div2" style="display: block;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Parent Account:</label>
+                  </div>
+                  <div class="col-sm-8">
+                
+                    <select class="form-control text-dark bg-light" name="parent_account2" id="parent_account2">
+                      <option value="" class="bg-dark text-light text-center" disabled>Cash</option>
+                      <option value="{{ ind.parent_account }}" class="bg-dark text-light text-center" selected>{{ ind.parent_account }}</option>
+
+                      <option value="Petty Cash">Petty Cash</option>
+                      <option value="Undeposited Fund">Undeposited Fund</option>
+                      
+                    </select>
+                  </div>
+                </div>
+              </div>
+              {% else %}
               <div id="parent_div2" style="display: none;">
                 <div class="row mt-3">
                   <div class="col-sm-4">
@@ -551,7 +622,32 @@ function printForm() {
                   </div>
                 </div>
               </div>
-              <div id="parent_div3" style="display: none;">
+              {% endif %}
+              {% endif %}
+
+
+            {% if ind.account_type == 'Fixed Assets' %}
+
+              {% if ind.sub_account == 'on' %}
+              <div id="parent_div3" style="display: block;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Parent Account:</label>
+                  </div>
+                  <div class="col-sm-8">
+                
+                    <select class="form-control text-dark bg-light" name="parent_account3" id="parent_account3">
+                      <option value="" class="bg-dark text-light text-center" disabled>Fixed Asset</option>
+                      <option value="{{ ind.parent_account }}" class="bg-dark text-light text-center" selected>{{ ind.parent_account }}</option>
+
+                      <option value="Furniture and Equipment">Furniture and Equipment</option>
+                      
+                    </select>
+                  </div>
+                </div>
+              </div>
+              {% else %}
+              <div id="parent_div3" style="display:none;">
                 <div class="row mt-3">
                   <div class="col-sm-4">
                     <label for="">Parent Account:</label>
@@ -568,7 +664,31 @@ function printForm() {
                   </div>
                 </div>
               </div>
-              <div id="parent_div4" style="display: none;">
+
+              {% endif %}
+            {% endif %}
+
+            {% if ind.account_type == 'Stock' %}
+              {% if ind.sub_account == 'on' %}
+              <div id="parent_div4" style="display: block;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Parent Account:</label>
+                  </div>
+                  <div class="col-sm-8">
+                
+                    <select class="form-control text-dark bg-light" name="parent_account4" id="parent_account4">
+                      <option value="" class="bg-dark text-light text-center" disabled>Stock</option>
+                      <option value="{{ ind.parent_account }}" class="bg-dark text-light text-center" selected>{{ ind.parent_account }}</option>
+
+                      <option value="Inventory Asset">Inventory Asset</option>
+                      
+                    </select>
+                  </div>
+                </div>
+              </div>
+              {% else %}
+              <div id="parent_div4" style="display:none;">
                 <div class="row mt-3">
                   <div class="col-sm-4">
                     <label for="">Parent Account:</label>
@@ -585,6 +705,43 @@ function printForm() {
                   </div>
                 </div>
               </div>
+              {% endif %}
+            {% endif %}
+
+
+            {% if ind.account_type == 'Other Current Liability' %}
+            {% if ind.sub_account == 'on' %}
+              <div id="parent_div5" style="display: block;">
+                <div class="row mt-3">
+                  <div class="col-sm-4">
+                    <label for="">Parent Account:</label>
+                  </div>
+                  <div class="col-sm-8">
+                
+                    <select class="form-control text-dark bg-light" name="parent_account5" id="parent_account5">
+                      <option value="" class="bg-dark text-light text-center" disabled>Other Current Liability</option>
+                      <option value="{{ ind.parent_account }}" class="bg-dark text-light text-center" selected>{{ ind.parent_account }}</option>
+
+                      <option value="Employee Reimbursements">Employee Reimbursements</option>
+                      <option value="Opening Balance Adjustments">Opening Balance Adjustments</option>
+                      <option value="Tax Payable">Tax Payable</option>
+                      <option value="Unearned Revenue">Unearned Revenue</option>
+                      <option value="GST Payable">GST Payable</option>
+                      <optgroup>
+                        <option value="Output CGST">Output CGST</option>
+                        <option value="Output IGST">Output IGST</option>
+                        <option value="Output SGST">Output SGST</option>
+
+                      </optgroup>
+                      <option value="TDS Payable">TDS Payable</option>
+
+
+                      
+                    </select>
+                  </div>
+                </div>
+              </div>
+              {% else %}
               <div id="parent_div5" style="display: none;">
                 <div class="row mt-3">
                   <div class="col-sm-4">
@@ -615,6 +772,10 @@ function printForm() {
                   </div>
                 </div>
               </div>
+
+              {% endif %}
+              {% endif %}
+
 
               <div id="parent_div6" style="display: none;">
                 <div class="row mt-3">
@@ -1442,7 +1603,7 @@ function printForm() {
     }
 
     function show_parent12(){
-      var chk12 = document.getElementById("sub_account12").checked
+      var chk12 = document.getElementById("sub_account12").checked;
      
         if(chk12== true){
         document.getElementById("parent_div12").style.display="block";
