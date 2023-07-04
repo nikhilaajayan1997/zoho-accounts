@@ -3012,6 +3012,78 @@ def edit_chart_of_account(request,pk):
             a.bank_account_no = "null"
             a.currency = "null"
         
+        if a.account_type=="Other Current Liability":        
+            a.sub_account = request.POST.get("sub_account5",None)
+            if a.sub_account=='on':
+               a.parent_account = request.POST.get("parent_account5",None)
+            else:
+               a.parent_account = "null"
+            a.bank_account_no = "null"
+            a.currency = "null"
+        
+        if a.account_type=="Long Term Liability":        
+            a.sub_account = request.POST.get("sub_account6",None)
+            if a.sub_account=='on':
+               a.parent_account = request.POST.get("parent_account6",None)
+            else:
+               a.parent_account = "null"
+            a.bank_account_no = "null"
+            a.currency = "null"
+        
+        if a.account_type=="Other Liability":        
+            a.sub_account = request.POST.get("sub_account7",None)
+            if a.sub_account=='on':
+               a.parent_account = request.POST.get("parent_account7",None)
+            else:
+               a.parent_account = "null"
+            a.bank_account_no = "null"
+            a.currency = "null"
+        
+        if a.account_type=="Eqity":        
+            a.sub_account = request.POST.get("sub_account8",None)
+            if a.sub_account=='on':
+               a.parent_account = request.POST.get("parent_account8",None)
+            else:
+               a.parent_account = "null"
+            a.bank_account_no = "null"
+            a.currency = "null"
+        
+        if a.account_type=="Income":        
+            a.sub_account = request.POST.get("sub_account9",None)
+            if a.sub_account=='on':
+               a.parent_account = request.POST.get("parent_account9",None)
+            else:
+               a.parent_account = "null"
+            a.bank_account_no = "null"
+            a.currency = "null"
+
+        if a.account_type=="Expense":        
+            a.sub_account = request.POST.get("sub_account10",None)
+            if a.sub_account=='on':
+               a.parent_account = request.POST.get("parent_account10",None)
+            else:
+               a.parent_account = "null"
+            a.bank_account_no = "null"
+            a.currency = "null"
+
+        if a.account_type=="Cost Of Goods Sold":        
+            a.sub_account = request.POST.get("sub_account11",None)
+            if a.sub_account=='on':
+               a.parent_account = request.POST.get("parent_account11",None)
+            else:
+               a.parent_account = "null"
+            a.bank_account_no = "null"
+            a.currency = "null"
+        
+        if a.account_type=="Other Expense":        
+            a.sub_account = request.POST.get("sub_account12",None)
+            if a.sub_account=='on':
+               a.parent_account = request.POST.get("parent_account12",None)
+            else:
+               a.parent_account = "null"
+            a.bank_account_no = "null"
+            a.currency = "null"
+        
         a.save()
         return redirect('chartofaccount_home')
     return redirect('chartofaccount_home')
