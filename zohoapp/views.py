@@ -3084,6 +3084,18 @@ def edit_chart_of_account(request,pk):
             a.bank_account_no = "null"
             a.currency = "null"
         
+        if a.account_type=="Bank":        
+            a.sub_account ="null"         
+            a.parent_account = "null"
+            a.bank_account_no = request.POST.get("account_number")
+            a.currency = request.POST.get("parent_account22")
+
+        if a.account_type=="Credit Card":        
+            a.sub_account ="null"         
+            a.parent_account = "null"
+            a.bank_account_no = "null"
+            a.currency = request.POST.get("parent_account32")
+        
         a.save()
         return redirect('chartofaccount_home')
     return redirect('chartofaccount_home')
