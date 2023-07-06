@@ -2939,8 +2939,9 @@ def chartofaccount_view(request,id):
     user = User.objects.get(id=cur_user.id)
     view=Chart_of_Account.objects.filter(user=user)
     ind=Chart_of_Account.objects.get(user=user, id=id)
+    doc=Chart_of_Account_Upload.objects.filter(user=user,account=ind)
     print(view)
-    return render(request,"chartofaccount_view.html", {'view':view,'ind':ind}) 
+    return render(request,"chartofaccount_view.html", {'view':view,'ind':ind,'doc':doc}) 
 
 def create_account_view(request):
     if request.method=='POST':
@@ -3099,6 +3100,30 @@ def edit_chart_of_account(request,pk):
         a.save()
         return redirect('chartofaccount_home')
     return redirect('chartofaccount_home')
+
+def upload_chart_of_account(request,pk):
+    if request.method=='POST':
+        cur_user = request.user
+        user = User.objects.get(id=cur_user.id)
+        account=Chart_of_Account.objects.get(id=pk)
+        account_type=account.account_type
+        account_name=account.account_name
+        title=request.POST['file_title']
+        description=request.POST['description']
+        document=request.FILES.get('file')
+        doc_upload=Chart_of_Account_Upload(user=user,account=account,account_type=account_type,account_name=account_name,title=title,description=description,document=document)
+        doc_upload.save()
+        return redirect('chartofaccount_home')
+    return redirect('chartofaccount_home')
+
+def download_chart_of_account(request,pk):
+    document=get_object_or_404(Chart_of_Account_Upload,id=pk)
+    response=HttpResponse(document.document,content_type='application/pdf')
+    response['Content-Disposition']=f'attachment; filename="{document.document.name}"'
+    return response
+
+
+
 
 
 

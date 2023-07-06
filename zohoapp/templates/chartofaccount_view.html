@@ -42,7 +42,7 @@
       background-color: white;
       color: black;
       border-radius: 7px;
-      padding: 15px 20px;
+      padding: 10px 15px;
       border: 0 !important;
       outline: 0 !important;
     }
@@ -96,6 +96,77 @@
       transform: rotate(-180deg);
     }
     
+
+    
+    /* .......................................... search box1.............. */
+    .select-box1{
+      position: relative;
+    }
+    .select-option1{
+      position: relative;
+    }
+    .select-option1 input{
+      width: 100%;
+      cursor: pointer;
+      background-color: white;
+      color: black;
+      border-radius: 7px;
+      padding: 10px 15px;
+      border: 0 !important;
+      outline: 0 !important;
+    }
+    .select-option1:after{
+      content: "";
+      border-top: 12px solid #000;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      margin-top: -8px;
+
+    }
+    .content1{
+      background-color: white;
+      position: absolute;
+      color: black;
+      border-radius: 7px;
+      margin-top: 15px;
+      width: 100%;
+      z-index: 999;
+      padding: 20px;
+      display: none;
+    }
+    .search1 input{
+      width: 100%;
+      font-size: 17px;
+      padding: 15px;
+      outline: 0;
+      border: 1px solid #b3b3b3;
+      border-radius: 5px;
+    }
+    .options1{
+      margin-top: 10px;
+      max-height: 150px;
+      overflow-y: auto;
+      padding: 0;
+      
+    }
+    .options1 li{
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      border-bottom: 1px solid gray;
+    }
+    .select-box1.active .content1{
+      display: block;
+    }
+    .select-box1.active .select-option1:after{
+      transform: rotate(-180deg);
+    }
+    
+
+
 </style>
 
 
@@ -134,7 +205,7 @@ function printForm() {
           <div class="col-sm-12">
             <div class="select-box" onclick="myFunction()">
               <div class="select-option" >
-                <input type="text" placeholder="select" id="soValue">
+                <input type="text" placeholder="select" id="soValue" readonly>
               </div>
               <div class="content" id="myDropdown">
                 <div class="search">
@@ -142,15 +213,41 @@ function printForm() {
                 </div>
                 <ul class="options">
                   <div class="opt">
-                    ssss
-                   <li>Expense</li>
-                   <li>Income</li>
+                    Assets
+                   <li>Other Assets </li>
+                   <li>Other Current Asset</li>
+                   <li>Cash</li>
+                   <li>Bank</li>
+                   <li>Fixed Asset</li>
+                   <li>Stock</li>
+                   <li>Payment Clearing</li>
                   </div>
                   
                    <div class="opt">
-                    gggggg
-                   <li>stock</li>
-                   <li>orange</li>
+                    Liability
+                   <li>Other Liability </li>
+                   <li>Other Current Liability</li>
+                   <li>Credit Card</li>
+                   <li>Long Term Liability</li>
+                   <li>Overseas Tax Pyable</li>
+                   </div>
+
+                   <div class="opt">
+                    Equity
+                   <li>Equity</li>                  
+                   </div>
+
+                   <div class="opt">
+                    Income
+                   <li>Income</li>   
+                   <li>Other Income</li>               
+                   </div>
+
+                   <div class="opt">
+                    Expense
+                   <li>Expense</li>   
+                   <li>Cost Of Goods Sold</li>  
+                   <li>Other Expense</li>             
                    </div>
                 </ul>
                 
@@ -240,6 +337,7 @@ function printForm() {
         </div>
     </div>
     <div class="col-sm-8">
+
         <div class="row  mx-1 py-3" style="background-color: rgba(252, 236, 217, 0.8)">
             <div class="col-sm-5 text-dark" style="font-size: 2.5rem;">
                 <div class="col-sm-6 ">
@@ -253,7 +351,7 @@ function printForm() {
                          title="Edit">
                          <i class="mdi mdi-pencil"></i></a>
                     <a href="" class="btn btn-dark m-1 text-white " 
-                        data-toggle="tooltip" title="PDF" id="pdf">
+                        data-toggle="modal" data-target="#upload_account" title="Upload" id="pdf">
                         <i class="mdi mdi-file-pdf-box"></i></a>
                     <a href="" onclick="printForm()" class="btn btn-dark m-1 text-white btn_print" 
                         data-toggle="tooltip" title="Print">
@@ -262,11 +360,11 @@ function printForm() {
                          data-toggle="tooltip" title="Email">
                         <i class="mdi mdi-email"></i></a>
                     
-                    {% if estimate.attachment != ""%}
+                    <!-- {% if estimate.attachment != ""%} -->
                     <a href="" class="btn btn-dark m-1 text-white"
-                        data-toggle="tooltip" title="Download Attached File">
+                        data-toggle="modal" data-target="#download_account" title="Download Attached File">
                         <span class="mdi mdi-download"></span></a>
-                    {%endif%}
+                    <!-- {%endif%} -->
 
                     
                 </div>
@@ -334,6 +432,98 @@ function printForm() {
   
           <div class="row mt-4">
             <div class="col-sm-8">
+
+
+              <!-- ................................................................... -->
+
+
+              
+      
+
+
+
+      <div class="row">
+        <div class="col-sm-4">
+          <label for="">Account Type:</label>
+        </div>
+        <div class="col-sm-8">
+          <div class="select-box1">
+            <div class="select-option1" >
+              <input type="text" placeholder="select" id="soValue1" readonly>
+            </div>
+            <div class="content1" id="myDropdown1">
+              <div class="search1">
+                <input type="text" placeholder="search" id="myInput1" onkeyup="filterFunction1()">
+              </div>
+              <ul class="options1">
+                <div class="opt">
+                  Assets
+                 <li>Other Assets </li>
+                 <li>Other Current Asset</li>
+                 <li>Cash</li>
+                 <li>Bank</li>
+                 <li>Fixed Asset</li>
+                 <li>Stock</li>
+                 <li>Payment Clearing</li>
+                </div>
+                
+                 <div class="opt">
+                  Liability
+                 <li>Other Liability </li>
+                 <li>Other Current Liability</li>
+                 <li>Credit Card</li>
+                 <li>Long Term Liability</li>
+                 <li>Overseas Tax Pyable</li>
+                 </div>
+  
+                 <div class="opt">
+                  Equity
+                 <li>Equity</li>                  
+                 </div>
+  
+                 <div class="opt">
+                  Income
+                 <li>Income</li>   
+                 <li>Other Income</li>               
+                 </div>
+  
+                 <div class="opt">
+                  Expense
+                 <li>Expense</li>   
+                 <li>Cost Of Goods Sold</li>  
+                 <li>Other Expense</li>             
+                 </div>
+              </ul>
+              
+             
+  
+            </div>
+          </div>
+         
+          
+        </div>
+        <script>
+          const selectBox1=document.querySelector('.select-box1');
+          const selectOption1=document.querySelector('.select-option1');
+          const optionsList1=document.querySelectorAll('.options1 li');
+          const soValue1=document.querySelector('#soValue1');
+    
+          selectOption1.addEventListener('click',function(){
+            selectBox1.classList.toggle('active')
+          })
+    
+          optionsList1.forEach(function(optionsListSingle){
+            optionsListSingle.addEventListener('click',function(){
+              text=this.textContent;
+              soValue1.value=text;
+              selectBox1.classList.remove('active')
+    
+            })
+          })
+        </script>
+      </div>
+
+              <!-- .......................................................................... -->
               <div class="row">
                 <div class="col-sm-4">
                   <label for="">Account Type:</label>
@@ -495,16 +685,159 @@ function printForm() {
               <input class="btn btn-light ml-3" type="reset" value="Cancel">
             </div>
           </div>
-          
+
   
         </div>
       </div>
     </div>
+    
+
   </form>
 
+<!-- .........................................   DOC  UPLOAD   .............................................. -->
+
+<form action="{% url 'upload_chart_of_account' ind.id %}" method="POST" enctype="multipart/form-data">
+  {% csrf_token%}
+  <div class="modal" id="upload_account">
+    <div class="modal-dialog modal-dialog-centered " role="document" style="max-width: 600px;">
+      <div class="modal-content p-3" style="background-color: #000000;">
+        <div class="modal-header">
+          <h5 class="modal-title text-info">Document Upload</h5>
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="font-size: 20px;background-color: #000000;border:none;">
+            <span aria-hidden="true">&times;</span> 
+          </button>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-sm-8">
+            
+            <div id="name" style="display: block;">
+              <div class="row mt-3">
+                <div class="col-sm-4">
+                  <label for="">Title:</label>
+                </div>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control text-dark bg-light" name="file_title" id="file_title" required>
+                </div>
+              </div>
+              
+            </div> 
+
+            <!-- <div id="name" style="display: block;">
+              <div class="row mt-3">
+                <div class="col-sm-12">
+                  <label for="">Description:</label>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-sm-12">
+                  <textarea name="description" class="form-control text-dark bg-light" id="description" placeholder="Max. 500 characters"></textarea>
+                </div>
+              </div>
+            </div>  -->
+
+           
+            <div class="row mt-3">
+              <div class="col-sm-4">
+                <label for="">Description:</label>
+              </div>
+              <div class="col-sm-8">
+                <textarea name="description" rows="3" cols="30" class="text-dark bg-light" id="description" placeholder="Max. 500 characters"></textarea>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-sm-4">
+                <label for="">File Upload:</label>
+              </div>
+              <div class="col-sm-8">
+                <input type="file" name="file" required>
+               </div>
+            </div>
+            
+
+          </div>
+           
+        </div>
+        <div class="row mt-3">
+          <div class="col-sm-12">
+            <input class="btn btn-success" type="submit" value="Save">
+          
+            <input class="btn btn-light ml-3" type="reset" value="Cancel">
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+</form>
 
 
 
+
+
+
+<!-- ................................................................................................... -->
+
+
+
+<!-- .................................  DOC DOWNLOAD  ................................................... -->
+
+<div class="modal" id="download_account">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document" >
+    <div class="modal-content modal-xl p-3" style="background-color: #000000;">
+      <div class="modal-header">
+        <h5 class="modal-title text-info">Download Attached Document</h5>
+        <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+          style="font-size: 20px;background-color: #000000;border:none;">
+          <span aria-hidden="true">&times;</span> 
+        </button>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-11 col-lg-11">
+            <table class="table  text-white" id="myTable">
+                <thead>
+                  <tr>
+                    
+                    <th>TITLE </th>
+                    <th>DESCRIPTION</th>
+                    <th>DOCUMENT</th>
+                    <th>
+                      ACTION
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for v in doc %}
+         
+                  <tr id="over">
+         
+                   <!-- <td onclick="location.href ='{% url 'detail' v.id %}' " > {{v.Name}}</td> -->
+                    <td>{{ v.title }}</td>
+                    <td>{{v.description}}</td>
+                    <td>{{ v.document }}</td>
+                    <td>                      
+                      <a href="{% url 'download_chart_of_account' v.id %}" class="btn btn-warning">Download</a>
+                    </td>
+    
+                   
+                  </tr>
+                  {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-12 col-md-1 col-lg-1"></div>
+
+    </div>
+      
+      
+
+    </div>
+  </div>
+</div>
+
+<!-- ...................................................................................................... -->
 
   <form action="{% url 'edit_chart_of_account' ind.id %}" method="POST" enctype="multipart/form-data">
     {% csrf_token%}
@@ -518,9 +851,17 @@ function printForm() {
               <span aria-hidden="true">&times;</span> 
             </button>
           </div>
+
+
+
+
+          
+
+          <!-- ........................... -->
   
           <div class="row mt-4">
             <div class="col-sm-8">
+             
               <div class="row">
                 <div class="col-sm-4">
                   <label for="">Account Type:</label>
@@ -1988,6 +2329,25 @@ function printForm() {
   }
   </script>
   <script>
+    function myFunction1() {
+      var input, filter, table, tr, td, i;
+      input = document.getElementById("soValue1");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("MyTable");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+          if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }       
+      }
+    }
+    </script>
+  <script>
     function myyFunction(){
         var input,filter,table,tr,td,i,txtValue;
         input=document.getElementById("myyInput");
@@ -2018,7 +2378,7 @@ function printForm() {
    filter = input.value.toUpperCase();
    div = document.getElementById("myDropdown");
    a = div.getElementsByClassName('opt');
-  //  b = div.getElementsByTagName('a');
+   b = div.getElementsByTagName('li');
 
    for (i = 0; i < a.length; i++) {
      txtValue = a[i].textContent||a[i].innerText;
@@ -2029,15 +2389,46 @@ function printForm() {
        a[i].style.display = "none";
      }     
    }  
-  //  for (j = 0; j < b.length; j++) {
-  //        txtValue = b[j].textContent || b[j].innerText;
-  //        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-  //          b[j].style.display = "";
-  //         } 
-  //         else {
-  //           b[j].style.display = "none";
-  //         }
-  //   }
+   for (j = 0; j < b.length; j++) {
+         txtValue = b[j].textContent || b[j].innerText;
+         if (txtValue.toUpperCase().indexOf(filter) > -1) {
+           b[j].style.display = "";
+          } 
+          else {
+            b[j].style.display = "none";
+          }
+    }
+       
+ }
+</script>
+
+<script>
+  function filterFunction1() {
+   var input, filter, ul, li, a, i,b,j;
+   input = document.getElementById("myInput1");
+   filter = input.value.toUpperCase();
+   div = document.getElementById("myDropdown1");
+   a = div.getElementsByClassName('opt');
+   b = div.getElementsByTagName('li');
+
+   for (i = 0; i < a.length; i++) {
+     txtValue = a[i].textContent||a[i].innerText;
+     if (txtValue.toUpperCase().indexOf(filter) > -1) {
+       a[i].style.display = "";
+     } 
+     else {
+       a[i].style.display = "none";
+     }     
+   }  
+   for (j = 0; j < b.length; j++) {
+         txtValue = b[j].textContent || b[j].innerText;
+         if (txtValue.toUpperCase().indexOf(filter) > -1) {
+           b[j].style.display = "";
+          } 
+          else {
+            b[j].style.display = "none";
+          }
+    }
        
  }
 </script>

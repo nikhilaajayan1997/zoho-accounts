@@ -378,3 +378,15 @@ class Chart_of_Account(models.Model):
     watchlist = models.CharField(max_length=255,null=True,blank=True)
     attachment=models.ImageField(upload_to="image/", null=True)  
     status = models.CharField(max_length=255,null=True,blank=True)
+
+class Chart_of_Account_Upload(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
+    account=models.ForeignKey(Chart_of_Account,on_delete=models.CASCADE,null=True,blank=True)
+    account_type=models.CharField(max_length=255,null=True,blank=True)
+    account_name=models.CharField(max_length=255,null=True,blank=True)
+    title=models.CharField(max_length=255,null=True,blank=True)
+    description=models.TextField(null=True,blank=True)
+    document=models.FileField(upload_to='docs/')
+
+
+
