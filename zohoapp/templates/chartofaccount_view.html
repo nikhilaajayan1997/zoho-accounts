@@ -402,18 +402,9 @@ function printForm() {
                     <div class="col-sm-12 mt-auto">
                         <h6 class="text-dark">{{ind.description}}</h6>
                         
-                    </div>
-                    
+                    </div>                   
                 </div>
-                
-
-
             </div>
-
-           
-
-         
-     
     </div>
 </div>
 
@@ -429,27 +420,17 @@ function printForm() {
               <span aria-hidden="true">&times;</span> 
             </button>
           </div>
-  
           <div class="row mt-4">
-            <div class="col-sm-8">
-
-
+            <div class="col-sm-8">             
               <!-- ................................................................... -->
-
-
-              
-      
-
-
-
       <div class="row">
         <div class="col-sm-4">
           <label for="">Account Type:</label>
         </div>
         <div class="col-sm-8">
-          <div class="select-box1">
+          <div class="select-box1" onclick="message()">
             <div class="select-option1" >
-              <input type="text" placeholder="select" id="soValue1" readonly>
+              <input type="text" placeholder="select" id="soValue1" name="account_type"  readonly>
             </div>
             <div class="content1" id="myDropdown1">
               <div class="search1">
@@ -458,8 +439,8 @@ function printForm() {
               <ul class="options1">
                 <div class="opt">
                   Assets
-                 <li>Other Assets </li>
-                 <li>Other Current Asset</li>
+                 <li>Other Assets</li>
+                 <li>Other Current Assets</li>
                  <li>Cash</li>
                  <li>Bank</li>
                  <li>Fixed Asset</li>
@@ -469,16 +450,16 @@ function printForm() {
                 
                  <div class="opt">
                   Liability
-                 <li>Other Liability </li>
+                 <li>Other Liability</li>
                  <li>Other Current Liability</li>
                  <li>Credit Card</li>
                  <li>Long Term Liability</li>
-                 <li>Overseas Tax Pyable</li>
+                 <li>Overseas Tax Payable</li>
                  </div>
   
                  <div class="opt">
-                  Equity
-                 <li>Equity</li>                  
+                  Eqity
+                 <li>Eqity</li>                  
                  </div>
   
                  <div class="opt">
@@ -500,8 +481,8 @@ function printForm() {
             </div>
           </div>
          
-          
         </div>
+       
         <script>
           const selectBox1=document.querySelector('.select-box1');
           const selectOption1=document.querySelector('.select-option1');
@@ -524,13 +505,13 @@ function printForm() {
       </div>
 
               <!-- .......................................................................... -->
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-sm-4">
                   <label for="">Account Type:</label>
                 </div>
                 <div class="col-sm-8">
   
-                  <select name="account_type" class="form-control text-dark bg-light" id="account_type" onchange="message()">
+                  <select name="account_type" class="form-control text-dark bg-light" id="account_type">
                     <option value="" class="bg-dark text-light text-center" disabled>Assets</option>
                     <option value="Other Assets" selected>Other Assets</option>
                     <option value="Other Current Assets">Other Current Assets</option>
@@ -562,7 +543,7 @@ function printForm() {
   
                   </select>
                 </div>
-              </div>
+              </div> -->
               <div id="name" style="display: block;">
                 <div class="row mt-3">
                   <div class="col-sm-4">
@@ -1931,11 +1912,16 @@ function printForm() {
   <script>
     function message() {
     
-      var vals= document.getElementById('account_type').value
+      var vals= document.getElementById('soValue1').value
       console.log(vals)
       if(vals == "Other Assets"){
         document.getElementById('message_hd').innerHTML = "Assets"
         document.getElementById('message').innerHTML = "Track special assets like goodwill and other intangible assets"
+        document.getElementById("sub_div").style.display="none";
+        document.getElementById("name").style.display="block";
+        document.getElementById("credit").style.display="none";
+        document.getElementById("acc_bo_div").style.display="none";
+        document.getElementById("cr_div").style.display="none";
   
       }else if(vals == "Other Current Assets"){
         document.getElementById('message_hd').innerHTML = "Assets"
@@ -1976,7 +1962,7 @@ function printForm() {
           `To keep track of bank accounts like Savings, Checking, and Money Market accounts`
         )
   
-      }else if(vals == "Fixed Assets"){
+      }else if(vals == "Fixed Asset"){
         document.getElementById('message_hd').innerHTML = "Assets"
         document.getElementById('message').innerHTML = ""
         document.getElementById("sub_div").style.display="block";
@@ -2099,7 +2085,6 @@ function printForm() {
       }else if(vals == "Income"){
         document.getElementById('message_hd').innerHTML = "Income"
         document.getElementById('message').innerHTML = ""
-  
         document.getElementById("cr_div").style.display="none";
         document.getElementById("name").style.display="block";
         document.getElementById("credit").style.display="none";

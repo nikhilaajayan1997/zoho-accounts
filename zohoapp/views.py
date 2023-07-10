@@ -2938,7 +2938,7 @@ def chartofaccount_view(request,id):
     cur_user = request.user
     user = User.objects.get(id=cur_user.id)
     view=Chart_of_Account.objects.filter(user=user)
-    ind=Chart_of_Account.objects.get(user=user, id=id)
+    ind=Chart_of_Account.objects.get(user=user,id=id)
     doc=Chart_of_Account_Upload.objects.filter(user=user,account=ind)
     print(view)
     return render(request,"chartofaccount_view.html", {'view':view,'ind':ind,'doc':doc}) 
