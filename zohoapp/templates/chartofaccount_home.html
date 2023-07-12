@@ -128,7 +128,7 @@
 
   <div class="row mt-4">
     <div class="col-sm-12">
-      <table class="table table-responsive " id="myTable" style="text-align: center;">
+      <table class="table table-responsive " id="myTable" style="text-align: left;">
         <thead>
           <tr>
             <th class="text-light">Account Name</th>
@@ -143,7 +143,24 @@
           {% for v in view %}
  
           <tr>
-            <td class="text-light"><a href="{% url 'chartofaccount_view' v.id%}">{{v.account_name}}</a> </td>
+            {% if v.parent_account == "GST Payable" %}
+            <td class="text-light">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <img width="20" height="10" src="https://img.icons8.com/nolan/64/arrow.png" alt="arrow"/>
+              <a href="{% url 'chartofaccount_view' v.id%}">{{v.account_name}}</a> </td>
+              {% else %}
+                   {% if v.account_name == "GST Payable" %}
+
+                   <td class="text-light">
+                    <img width="5" height="5" src="https://img.icons8.com/avantgarde/100/folder-invoices.png" alt="folder-invoices"/>                    
+
+                    <a href="{% url 'chartofaccount_view' v.id%}">{{v.account_name}}</a> </td>
+
+                   {% else %}
+                          <td class="text-light"><a href="{% url 'chartofaccount_view' v.id%}">{{v.account_name}}</a> </td>
+                    {% endif %}        
+              {% endif %}
+              
+            
             <td class="text-light">{{v.account_type}}</td>
             <td class="text-light">{{v.account_code}}</td>
             <td class="text-light"> {{v.status}}</td>

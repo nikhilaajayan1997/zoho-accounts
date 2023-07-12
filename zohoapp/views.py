@@ -2951,15 +2951,94 @@ def create_account_view(request):
         a.user = user
         a.account_type = request.POST.get("account_type",None)
         a.account_name = request.POST.get("account_name",None)
-        a.credit_no = request.POST.get("credit_number",None)
-        a.sub_account = request.POST.get("sub_account",None)
-        a.parent_account = request.POST.get("parent_account",None)
-        a.bank_account_no = request.POST.get("account_number",None)
-        a.currency = request.POST.get("currency",None)
         a.account_code = request.POST.get("account_code",None)
         a.description = request.POST.get("description",None)
         a.watchlist = request.POST.get("watchlist",None)
         a.status="inactive"
+        if a.account_type=="Other Current Assets":
+            a.credit_no = request.POST.get("credit_number",None)
+            a.sub_account = request.POST.get("sub_account",None)
+            a.parent_account = request.POST.get("parent_account",None)
+            a.bank_account_no = request.POST.get("account_number",None)
+            a.currency = request.POST.get("currency",None)
+
+        if a.account_type=="Cash":
+            a.credit_no = request.POST.get("credit_number",None)
+            a.sub_account = request.POST.get("sub_account22",None)
+            a.parent_account = request.POST.get("parent_account22",None)
+            a.bank_account_no = request.POST.get("account_number",None)
+            a.currency = request.POST.get("currency",None)
+
+        if a.account_type=="Fixed Assets":
+            a.credit_no = request.POST.get("credit_number",None)
+            a.sub_account = request.POST.get("sub_account33",None)
+            a.parent_account = request.POST.get("parent_account33",None)
+            a.bank_account_no = request.POST.get("account_number",None)
+            a.currency = request.POST.get("currency",None)
+        
+        if a.account_type=="Stock":
+            a.credit_no = request.POST.get("credit_number",None)
+            a.sub_account = request.POST.get("sub_account44",None)
+            a.parent_account = request.POST.get("parent_account44",None)
+            a.bank_account_no = request.POST.get("account_number",None)
+            a.currency = request.POST.get("currency",None)
+        
+        if a.account_type=="Other Current Liability":
+            a.credit_no = request.POST.get("credit_number",None)
+            a.sub_account = request.POST.get("sub_account55",None)
+            a.parent_account = request.POST.get("parent_account55",None)
+            a.bank_account_no = request.POST.get("account_number",None)
+            a.currency = request.POST.get("currency",None)
+        
+        if a.account_type=="Long Term Liability":
+            a.credit_no = request.POST.get("credit_number",None)
+            a.sub_account = request.POST.get("sub_account66",None)
+            a.parent_account = request.POST.get("parent_account66",None)
+            a.bank_account_no = request.POST.get("account_number",None)
+            a.currency = request.POST.get("currency",None)
+        
+        if a.account_type=="Other Liability":
+            a.credit_no = request.POST.get("credit_number",None)
+            a.sub_account = request.POST.get("sub_account77",None)
+            a.parent_account = request.POST.get("parent_account77",None)
+            a.bank_account_no = request.POST.get("account_number",None)
+            a.currency = request.POST.get("currency",None)
+        
+        if a.account_type=="Eqity":
+            a.credit_no = request.POST.get("credit_number",None)
+            a.sub_account = request.POST.get("sub_account88",None)
+            a.parent_account = request.POST.get("parent_account88",None)
+            a.bank_account_no = request.POST.get("account_number",None)
+            a.currency = request.POST.get("currency",None)
+        
+        if a.account_type=="Income":
+            a.credit_no = request.POST.get("credit_number",None)
+            a.sub_account = request.POST.get("sub_account99",None)
+            a.parent_account = request.POST.get("parent_account99",None)
+            a.bank_account_no = request.POST.get("account_number",None)
+            a.currency = request.POST.get("currency",None)
+        
+        if a.account_type=="Expense":
+            a.credit_no = request.POST.get("credit_number",None)
+            a.sub_account = request.POST.get("sub_account100",None)
+            a.parent_account = request.POST.get("parent_account100",None)
+            a.bank_account_no = request.POST.get("account_number",None)
+            a.currency = request.POST.get("currency",None)
+        
+        if a.account_type=="Cost Of Goods Sold":
+            a.credit_no = request.POST.get("credit_number",None)
+            a.sub_account = request.POST.get("sub_account111",None)
+            a.parent_account = request.POST.get("parent_account111",None)
+            a.bank_account_no = request.POST.get("account_number",None)
+            a.currency = request.POST.get("currency",None)
+        
+        if a.account_type=="Other Expense":
+            a.credit_no = request.POST.get("credit_number",None)
+            a.sub_account = request.POST.get("sub_account222",None)
+            a.parent_account = request.POST.get("parent_account222",None)
+            a.bank_account_no = request.POST.get("account_number",None)
+            a.currency = request.POST.get("currency",None)
+
         a.save()
         return redirect('chartofaccount_home')
     return redirect('chartofaccount_home')
