@@ -23,8 +23,8 @@ def index(request):
     return render(request,'index.html')
 
 def register(request):
+    
     if request.method=='POST':
-
         first_name=capfirst(request.POST['fname'])
         last_name=capfirst(request.POST['lname'])
         username=request.POST['uname']
@@ -50,12 +50,16 @@ def register(request):
                 u = User.objects.get(id = user.id)
 
                 company_details(contact_number = phone, user = u).save()
+          
         else:
             messages.info(request, 'Password doesnt match!!!!!!!')
             print("Password is not Matching.. ") 
-            return redirect('register')   
+            return redirect('register') 
+        
         return redirect('register')
+        print("hellooooo")
 
+       
     return render(request,'register.html',{'msg' : messages})
 
 def login(request):
@@ -68,12 +72,54 @@ def login(request):
         user = authenticate(request, username=email_or_username, password=password)
         print(user)
         if user is not None:
-            auth.login(request, user)
+            auth.login(request,user)
+            # .........................................................
+            user=request.user        
+            account_info = [{"user": user, "account_type": "Expense","account_name":"Advertising and Marketing","credit_no":"","sub_account":"","parent_account":"","bank_account_no":"","currency":"","account_code":"","description":"Your expenses on promotional, marketing and advertising activities like banners, web-adds, trade shows, etc. are recorded in advertising and marketing account.","watchlist":"","status":"active"},
+            {"user": user, "account_type": "Other Current Assets","account_name":"Advance Tax","credit_no":"","sub_account":"","parent_account":"","bank_account_no":"","currency":"","account_code":"","description":"Any tax which is paid in advance is recorded into the advance tax account. This advance tax payment could be a quarterly, half yearly or yearly payment","watchlist":"","status":"active"},
+            {"user": user, "account_type": "Expense","account_name":"Automobile Expense","credit_no":"","sub_account":"","parent_account":"","bank_account_no":"","currency":"","account_code":"","description":"Transportation related expenses like fuel charges and maintenance charges for automobiles, are included to the automobile expense account.","watchlist":"","status":"active"},
+            {"user": user, "account_type": "Expense","account_name":"Bad Debt","credit_no":"","sub_account":"","parent_account":"","bank_account_no":"","currency":"","account_code":"","description":"Any amount which is lost and is unrecoverable is recorded into the bad debt account.","watchlist":"","status":"active"}]
+            print(account_info[0])
+            print(account_info[1])
+
+            for account in account_info:
+                print(account)
+                if not Chart_of_Account.objects.filter(account_name=account['account_name']).exists():
+                    new_account = Chart_of_Account(user=account['user'],account_name=account['account_name'],account_type=account['account_type'],credit_no=account['credit_no'],sub_account=account['sub_account'],parent_account=account['parent_account'],bank_account_no=account['bank_account_no'],currency=account['currency'],account_code=account['account_code'],description=account['description'],watchlist=account['watchlist'],status=account['status'])
+                    new_account.save()
+
+            # user=request.user 
+            # account_name="demo"
+            # account_type="Expense"
+            # credit_no=None
+            # sub_account=None
+            # parent_account=None
+            # bank_account=None
+            # bank_account_no=None
+            # currency=None
+            # account_code=None
+            # description=None
+            # watchlist=None
+            # status=None
+            # if not Chart_of_Account.objects.filter(account_name=account_name).exists():
+            #    new_account = Chart_of_Account(user=user,account_name=account_name,account_type=account_type,credit_no=credit_no,sub_account=sub_account,parent_account=parent_account,bank_account_no=bank_account_no,currency=currency,account_code=account_code,description=description,watchlist=watchlist,status=status)
+            #    new_account.save()
+
+
+
+
+            # ..........................................
+
             return redirect('base')
+           
         else:
             return redirect('/')
+        
 
     return render(request, 'register.html')
+
+
+     
 
 @login_required(login_url='login')
 def logout(request):
