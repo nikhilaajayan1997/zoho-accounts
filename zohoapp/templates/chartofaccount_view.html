@@ -504,8 +504,8 @@ function printForm() {
                  </div>
   
                  <div class="opt">
-                  Eqity
-                 <li>Eqity</li>                  
+                  Equity
+                 <li>Equity</li>                  
                  </div>
   
                  <div class="opt">
@@ -1248,7 +1248,7 @@ function printForm() {
   </div>
 </div>
 
-<!-- ...................................................................................................... -->
+<!-- ..............................................  EDIT  CHART OF ACCOUNTS  ........................................................ -->
 
   <form action="{% url 'edit_chart_of_account' ind.id %}" method="POST" enctype="multipart/form-data">
     {% csrf_token%}
@@ -1262,13 +1262,6 @@ function printForm() {
               <span aria-hidden="true">&times;</span> 
             </button>
           </div>
-
-
-
-
-          
-
-          <!-- ........................... -->
   
           <div class="row mt-4">
             <div class="col-sm-8">
@@ -1277,11 +1270,9 @@ function printForm() {
                 <div class="col-sm-4">
                   <label for="">Account Type:</label>
                 </div>
-                <div class="col-sm-8">
-  
+                <div class="col-sm-8">  
                   <select name="account_type1" class="form-control text-dark bg-light" id="account_type1" onchange="message()">
-                    <option value="{{ind.account_type}}" selected>{{ind.account_type}}</option>
-                 
+                    <option value="{{ind.account_type}}" selected>{{ind.account_type}}</option>                 
                   </select>
                 </div>
               </div>
@@ -1291,7 +1282,11 @@ function printForm() {
                     <label for="">Account Name:</label>
                   </div>
                   <div class="col-sm-8">
+                    {% if ind.create_status == "default" %}
+                    <input type="text" class="form-control text-dark bg-light" name="account_name1" id="account_name" value="{{ind.account_name}}"readonly>
+                    {% else %}
                     <input type="text" class="form-control text-dark bg-light" name="account_name1" id="account_name" value="{{ind.account_name}}">
+                    {% endif %}
                   </div>
                 </div>
               </div> 
@@ -1396,7 +1391,7 @@ function printForm() {
                   </div>
                   {% endif %}
 
-                  {% if ind.account_type == 'Eqity' %}
+                  {% if ind.account_type == 'Equity' %}
                   <div id="sub_div2" style="display: block;">
                     {% if ind.sub_account == 'on' %} 
                     <input type="checkbox" class=" text-dark bg-light" onclick="show_parent8()" name="sub_account8" id="sub_account8" checked> 
@@ -1455,7 +1450,7 @@ function printForm() {
                 </div>
               </div>
 
-       <!-- .................................................................................        -->
+       <!-- .................................................................................        -->       
        {% if ind.account_type == 'Other Current Assets' %}
 
             {% if ind.sub_account == 'on' %}
@@ -1785,7 +1780,7 @@ function printForm() {
               {% endif %}
               {% endif %}
 
-              {% if ind.account_type == 'Eqity' %}
+              {% if ind.account_type == 'Equity' %}
               {% if ind.sub_account == 'on' %}
               <div id="parent_div8" style="display: block;">
                 <div class="row mt-3">
@@ -2275,9 +2270,9 @@ function printForm() {
                 </div>
               {% endif %}
 
-              {% if ind.account_type == "Eqity" %}
+              {% if ind.account_type == "Equity" %}
               <div class="alert alert-warning alert-dismissible fade show">
-                <span id="message_hd1">Eqity</span> <br>
+                <span id="message_hd1">Equity</span> <br>
                 <span id="message1">
                   Owners or stakeholders interest on the assets of the business after deducting all the liabilities
 
@@ -2813,8 +2808,8 @@ function printForm() {
           `Track your taxes in this account if your business sells digital services to foreign customers.`
         )
   
-      }else if(vals == "Eqity"){
-        document.getElementById('message_hd').innerHTML = "Eqity"
+      }else if(vals == "Equity"){
+        document.getElementById('message_hd').innerHTML = "Equity"
         document.getElementById('message').innerHTML = ""
         document.getElementById("sub_account88").checked=false;
 
@@ -3249,7 +3244,7 @@ function show_parent(){
     function show_parent88(){
       var vals= document.getElementById('soValue1').value;
       console.log(vals);      
-      if(vals == "Eqity"){
+      if(vals == "Equity"){
       var chk = document.getElementById("sub_account88").checked
       if(chk== true){
         document.getElementById("parent_div88").style.display="block";

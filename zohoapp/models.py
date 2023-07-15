@@ -376,7 +376,8 @@ class Chart_of_Account(models.Model):
     account_code = models.CharField(max_length=255,null=True,blank=True)
     description = models.TextField(null=True,blank=True)
     watchlist = models.CharField(max_length=255,null=True,blank=True)
-    attachment=models.ImageField(upload_to="image/", null=True)  
+    attachment=models.ImageField(upload_to="image/", null=True) 
+    create_status=models.CharField(max_length=255,null=True,blank=True) 
     status = models.CharField(max_length=255,null=True,blank=True)
 
 class Chart_of_Account_Upload(models.Model):
