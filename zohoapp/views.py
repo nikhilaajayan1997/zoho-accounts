@@ -3029,7 +3029,8 @@ def itemdata_challan(request):
 def chartofaccount_home(request):
     cur_user = request.user
     user = User.objects.get(id=cur_user.id)
-    view=Chart_of_Account.objects.filter(user=user)
+    # view=Chart_of_Account.objects.filter(user=user)
+    view=Chart_of_Account.objects.all()
     return render(request,"chartofaccount_home.html", {'view':view})
 
 def create_account(request):
@@ -3043,7 +3044,7 @@ def create_account(request):
         a.account_code = request.POST.get("account_code",None)
         a.description = request.POST.get("description",None)
         a.watchlist = request.POST.get("watchlist",None)
-        a.status="inactive"
+        a.status="active"
         if a.account_type=="Other Current Assets":
             a.credit_no = request.POST.get("credit_number",None)
             a.sub_account = request.POST.get("sub_account",None)
@@ -3136,9 +3137,12 @@ def create_account(request):
 def chartofaccount_view(request,id):
     cur_user = request.user
     user = User.objects.get(id=cur_user.id)
-    view=Chart_of_Account.objects.filter(user=user)
-    ind=Chart_of_Account.objects.get(user=user,id=id)
-    doc=Chart_of_Account_Upload.objects.filter(user=user,account=ind)
+    # view=Chart_of_Account.objects.filter(user=user)
+    # ind=Chart_of_Account.objects.get(user=user,id=id)
+    view=Chart_of_Account.objects.all()
+    ind=Chart_of_Account.objects.get(id=id)
+
+    doc=Chart_of_Account_Upload.objects.filter(account=ind)
     print(view)
     return render(request,"chartofaccount_view.html", {'view':view,'ind':ind,'doc':doc}) 
 
@@ -3153,7 +3157,7 @@ def create_account_view(request):
         a.account_code = request.POST.get("account_code",None)
         a.description = request.POST.get("description",None)
         a.watchlist = request.POST.get("watchlist",None)
-        a.status="inactive"
+        a.status="active"
         if a.account_type=="Other Current Assets":
             a.credit_no = request.POST.get("credit_number",None)
             a.sub_account = request.POST.get("sub_account",None)
