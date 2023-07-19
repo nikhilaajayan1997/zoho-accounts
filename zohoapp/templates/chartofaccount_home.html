@@ -18,6 +18,31 @@
     background-color: #92929242;
     font-weight: bold;
   }
+
+ /* width */
+ ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: rgb(252, 236, 217);
+
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+    #selected-area{
+        font-size: 20px;
+    }
+  
   
 
  /* .......................................... search box1.............. */
@@ -70,10 +95,14 @@
     .options1{
       margin-top: 10px;
       max-height: 150px;
-      overflow-y: auto;
-      padding: 0;
-      
+      overflow-y: scroll;
+      padding: 0;  
     }
+
+    /* .options1::-webkit-scrollbar{
+      width: 5px;
+     
+    } */
     .options1 li{
       padding: 10px 15px;
       border-radius: 5px;
@@ -104,7 +133,12 @@
   </div>
   
   <div class="row">
-    <div class="col-sm-12" style="text-align: right;">
+    <div class="col-sm-12 col-md-4 col-lg-4">
+      <input type="text" id="myyInput"  onkeyup="myyFunction()" placeholder="search by account name" style="border-radius: 5px;width: 100%;background-color: transparent;color: white;border: 1px solid gray;text-align: center;">                        
+
+    </div>
+    <div class="col-sm-12 col-md-4 col-lg-4"></div>
+    <div class="col-sm-12 col-md-4 col-lg-4"  style="text-align: right;">
       <a href="" data-toggle="modal" data-target="#create_account" class="btn btn-warning" style="text-decoration: none;">New Account</a>
     </div>
 
@@ -138,6 +172,7 @@
       </form>
     </div>
   </div> -->
+  
 
   <div class="row mt-4">
     <div class="col-sm-12">
@@ -201,7 +236,14 @@
             
             <td class="text-light">{{v.account_type}}</td>
             <td class="text-light">{{v.account_code}}</td>
-            <td class="text-light"> {{v.status}}</td>
+            <td class="text-light"> 
+              {% if v.status == "active" %}
+              <input type="radio" title="active" style="accent-color: rgb(4, 209, 4);" checked readonly>
+              {% else %}
+              <input type="radio" title="inactive" style="accent-color: red;" checked readonly>
+              {% endif %}
+              {{v.status}}
+            </td>
             
          
 
@@ -244,7 +286,7 @@
               </div>
               <ul class="options1">
                 <div class="opt">
-                  Assets
+                  <span style="font-weight: bold;">Assets</span>
                  <li>Other Assets</li>
                  <li>Other Current Assets</li>
                  <li>Cash</li>
@@ -255,27 +297,27 @@
                 </div>
                 
                  <div class="opt">
-                  Liability
+                  <span style="font-weight: bold;">Liability</span>
                  <li>Other Liability</li>
                  <li>Other Current Liability</li>
                  <li>Credit Card</li>
                  <li>Long Term Liability</li>
                  <li>Overseas Tax Payable</li>
-                 </div>
+                </div>
   
                  <div class="opt">
-                  Equity
+                  <span style="font-weight: bold;">Equity</span>
                  <li>Equity</li>                  
                  </div>
   
                  <div class="opt">
-                  Income
+                  <span style="font-weight: bold;">Income</span>
                  <li>Income</li>   
                  <li>Other Income</li>               
                  </div>
   
                  <div class="opt">
-                  Expense
+                  <span style="font-weight: bold;">Expense</span>
                  <li>Expense</li>   
                  <li>Cost Of Goods Sold</li>  
                  <li>Other Expense</li>             
@@ -315,7 +357,7 @@
                     <label for="">Account Name:</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control text-dark bg-light" name="account_name" id="account_name">
+                    <input type="text" class="form-control text-dark bg-light" name="account_name" id="account_name" required>
                   </div>
                 </div>
               </div> 
@@ -2068,6 +2110,8 @@
    filter = input.value.toUpperCase();
    div = document.getElementById("myDropdown1");
    a = div.getElementsByClassName('opt');
+  // a = div.getElementsByTagName('div');
+
    b = div.getElementsByTagName('li');
 
    for (i = 0; i < a.length; i++) {
@@ -2427,6 +2471,29 @@
     }
 
 
+</script>
+
+<script>
+  function myyFunction(){
+        var input,filter,table,tr,td,i,txtValue;
+        input=document.getElementById("myyInput");
+        filter=input.value.toUpperCase();
+        table=document.getElementById("myTable");
+        tr=table.getElementsByTagName("tr");
+        for(i = 0; i < tr.length; i++)
+        {
+            td=tr[i].getElementsByTagName("td")[0];
+            if(td){
+                txtValue=td.textContent || td.innerText;
+                if(txtValue.toUpperCase().indexOf(filter) > -1){
+                    tr[i].style.display="";
+                }
+                else{
+                    tr[i].style.display="none";
+                }
+            }
+        }
+    }
 </script>
 
 {% endblock %}

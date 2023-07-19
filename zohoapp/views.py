@@ -75,7 +75,9 @@ def login(request):
             auth.login(request,user)
             # .........................................................
             user=request.user        
-            account_info = [{"user": user, "account_type": "Expense","account_name":"Advertising and Marketing","credit_no":"","sub_account":"","parent_account":"","bank_account_no":"","currency":"","account_code":"","description":"Your expenses on promotional, marketing and advertising activities like banners, web-adds, trade shows, etc. are recorded in advertising and marketing account.","watchlist":"","create_status":"default","status":"active"},
+            account_info = [{"user": user, "account_type": "Accounts Payable","account_name":"Accounts Payable","credit_no":"","sub_account":"","parent_account":"","bank_account_no":"","currency":"","account_code":"","description":"This is an account of all the money which you owe to others like a pending bill payment to a vendor,etc.","watchlist":"","create_status":"default","status":"active"},
+            {"user": user, "account_type": "Accounts Receivable","account_name":"Accounts Receivable","credit_no":"","sub_account":"","parent_account":"","bank_account_no":"","currency":"","account_code":"","description":"The money that customers owe you becomes the accounts receivable. A good example of this is a payment expected from an invoice sent to your customer.","watchlist":"","create_status":"default","status":"active"},
+            {"user": user, "account_type": "Expense","account_name":"Advertising and Marketing","credit_no":"","sub_account":"","parent_account":"","bank_account_no":"","currency":"","account_code":"","description":"Your expenses on promotional, marketing and advertising activities like banners, web-adds, trade shows, etc. are recorded in advertising and marketing account.","watchlist":"","create_status":"default","status":"active"},
             {"user": user, "account_type": "Other Current Assets","account_name":"Advance Tax","credit_no":"","sub_account":"","parent_account":"","bank_account_no":"","currency":"","account_code":"","description":"Any tax which is paid in advance is recorded into the advance tax account. This advance tax payment could be a quarterly, half yearly or yearly payment","watchlist":"","create_status":"default","status":"active"},
             {"user": user, "account_type": "Expense","account_name":"Automobile Expense","credit_no":"","sub_account":"","parent_account":"","bank_account_no":"","currency":"","account_code":"","description":"Transportation related expenses like fuel charges and maintenance charges for automobiles, are included to the automobile expense account.","watchlist":"","create_status":"default","status":"active"},
             {"user": user, "account_type": "Expense","account_name":"Bad Debt","credit_no":"","sub_account":"","parent_account":"","bank_account_no":"","currency":"","account_code":"","description":"Any amount which is lost and is unrecoverable is recorded into the bad debt account.","watchlist":"","create_status":"default","status":"active"},
@@ -3257,7 +3259,7 @@ def edit_chart_of_account(request,pk):
         a.account_code = request.POST.get("account_code",None)
         a.description = request.POST.get("description",None)
         a.watchlist = request.POST.get("watchlist",None)
-        a.status="inactive"
+        a.status=request.POST.get("radiobutton",None)
 
         if a.account_type=="Other Current Assets":        
             a.sub_account = request.POST.get("sub_account1",None)

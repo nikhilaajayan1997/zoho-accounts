@@ -222,7 +222,7 @@ function printForm() {
           <div class="col-sm-12">
             <div class="select-box" onclick="myFunction()">
               <div class="select-option" >
-                <input type="text" placeholder="select" id="soValue" readonly>
+                <input type="text" placeholder="Filter by Account Type" id="soValue" readonly>
               </div>
               <div class="content" id="myDropdown">
                 <div class="search">
@@ -230,18 +230,19 @@ function printForm() {
                 </div>
                 <ul class="options">
                   <div class="opt">
-                    Assets
+                      <span style="font-weight: bold;">Assets</span><br>
                    <li>Other Assets </li>
                    <li>Other Current Asset</li>
-                   <li>Cash</li>
-                   <li>Bank</li>
+                   <li>Cash </li>
+                   <li>Bank </li>
                    <li>Fixed Asset</li>
-                   <li>Stock</li>
-                   <li>Payment Clearing</li>
-                  </div>
+                   <li>Stock </li>
+                   <li>Payment Clearing </li>
+                  
+                   </div>
                   
                    <div class="opt">
-                    Liability
+                    <span style="font-weight: bold;">Liability</span>
                    <li>Other Liability </li>
                    <li>Other Current Liability</li>
                    <li>Credit Card</li>
@@ -250,18 +251,18 @@ function printForm() {
                    </div>
 
                    <div class="opt">
-                    Equity
+                    <span style="font-weight: bold;">Equity</span>
                    <li>Equity</li>                  
                    </div>
 
                    <div class="opt">
-                    Income
+                    <span style="font-weight: bold;">Income</span>
                    <li>Income</li>   
                    <li>Other Income</li>               
                    </div>
 
                    <div class="opt">
-                    Expense
+                    <span style="font-weight: bold;">Expense</span>
                    <li>Expense</li>   
                    <li>Cost Of Goods Sold</li>  
                    <li>Other Expense</li>             
@@ -339,8 +340,8 @@ function printForm() {
                 <tr>
                     <td ><hr style="border-top: 1px solid white;"></td>
                 </tr> -->
+                {% if view.status == "inactive" %}
                 <tr class="mt-5 pt-5 pb-5 mb-5">
-                  <!-- <td><a href="{% url 'chartofaccount_view' view.id%}" style="color: rgb(206, 135, 5);">{{view.account_name}}</a></td> -->
 
                   {% if view.parent_account == "GST Payable" %}
                   <td class="text-light pt-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -371,10 +372,55 @@ function printForm() {
 
 
                   <td class="pt-4">
-                    {{view.status}}
+                    {% if view.status == "active" %}
+                      <span style="color: rgb(4, 190, 4);">{{view.status}}</span>
+                     {% else %} 
+                     <span style="color: red">{{view.status}}</span>
+                        {% endif %}
                   </td>
                   
                 </tr>
+                {% else %}
+                <tr class="mt-5 pt-5 pb-5 mb-5">
+
+                  {% if view.parent_account == "GST Payable" %}
+                  <td class="text-light pt-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <img width="30" height="25" src="https://img.icons8.com/nolan/64/arrow.png" alt="arrow"/>
+                    <a id="aover" href="{% url 'chartofaccount_view' view.id%}">{{view.account_name}}</a> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{{view.account_type}} </td>
+                  {% endif %}
+                  {% if view.parent_account == "Input Tax Credits" %}
+                    <td class="text-light pt-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <img width="30" height="25" src="https://img.icons8.com/nolan/64/arrow.png" alt="arrow"/>
+                      <a id="aover" href="{% url 'chartofaccount_view' view.id%}">{{view.account_name}}</a> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {{view.account_type}}</td>
+                    {% endif %}
+                    {% if view.parent_account != "Input Tax Credits" %}
+                       {% if view.parent_account != "GST Payable" %}
+    
+                       {% if view.account_name == "GST Payable" or  view.account_name == "Input Tax Credits" %}
+                          <td class="text-light pt-4">
+                            <img width="35" height="35" src="https://img.icons8.com/avantgarde/100/folder-invoices.png" alt="folder-invoices"/>                    
+        
+                            <a id="aover" href="{% url 'chartofaccount_view' view.id%}">{{view.account_name}}</a> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{view.account_type}} </td>
+                        {% else %}
+                        <td class="text-light pt-4"><a id="aover" href="{% url 'chartofaccount_view' view.id%}">{{view.account_name}}</a> <br> {{view.account_type}}  </td>
+                        {% endif %}
+    
+                       {% endif %}               
+                    {% endif %}
+
+
+
+
+                  <td class="pt-4">
+                    {% if view.status == "active" %}
+                      <span style="color: rgb(4, 190, 4);">{{view.status}}</span>
+                     {% else %} 
+                     <span style="color: red">{{view.status}}</span>
+                        {% endif %}
+                  </td>
+                  
+                </tr>
+                {% endif %}
                 <tr></tr>
 
                 {% endfor %}
@@ -387,7 +433,18 @@ function printForm() {
         <div class="row  mx-1 py-3" style="background-color: rgba(252, 236, 217, 0.8)">
             <div class="col-sm-5 text-dark" style="font-size: 2.5rem;">
                 <div class="col-sm-6 ">
-                    <h4 class="text-dark" style="text-transform: uppercase;">{{ind.account_name}}</h4>
+                  <!-- {% if ind.status == "active" %}
+                  <input type="radio" style="accent-color: rgb(4, 209, 4);" checked readonly>
+                  {% else %}
+                  <input type="radio" style="accent-color: red;" checked readonly>
+                  {% endif %} -->
+
+                    <h4 class="text-dark" style="text-transform: uppercase;">{{ind.account_name}}
+                      {% if ind.status == "active" %}
+                      <input type="radio" title="active" style="accent-color: rgb(4, 209, 4);" checked readonly>
+                      {% else %}
+                      <input type="radio" title="inactive" style="accent-color: red;" checked readonly>
+                      {% endif %}</h4>
                     <h6 class="text-dark">{{ind.account_type}}</h6>
                  
                 </div></div>
@@ -555,7 +612,7 @@ function printForm() {
                     <label for="">Account Name:</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control text-dark bg-light" name="account_name" id="account_name">
+                    <input type="text" class="form-control text-dark bg-light" name="account_name" id="account_name" required>
                   </div>
                 </div>
               </div> 
@@ -1265,6 +1322,17 @@ function printForm() {
   
           <div class="row mt-4">
             <div class="col-sm-8">
+              <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-8">
+                  {% if ind.status == 'active' %}
+                   
+                  <input type="radio" style="accent-color: rgb(4, 221, 4);" id="radio1" name="radiobutton" value="active" checked>&nbsp;Active &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" style="accent-color: red;"  id="radio2" value="inactive" name="radiobutton">&nbsp;Inactive
+                  {% else %}
+                  <input type="radio" style="accent-color: rgb(4, 221, 4);" id="radio1" name="radiobutton" value="active" >&nbsp;Active &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" style="accent-color: red;" id="radio2" value="inactive" name="radiobutton" checked>&nbsp;Inactive
+                   {% endif %}
+                </div>
+              </div>
              
               <div class="row">
                 <div class="col-sm-4">
@@ -3547,7 +3615,12 @@ function show_parent(){
    filter = input.value.toUpperCase();
    div = document.getElementById("myDropdown");
    a = div.getElementsByClassName('opt');
+
    b = div.getElementsByTagName('li');
+//   a = div.getElementsByClassName('li');
+
+// b = div.getElementsByTagName('a');
+
 
    for (i = 0; i < a.length; i++) {
      txtValue = a[i].textContent||a[i].innerText;
@@ -3564,7 +3637,7 @@ function show_parent(){
            b[j].style.display = "";
           } 
           else {
-            b[j].style.display = "none";
+            b[j].style.display = "none";  
           }
     }
        
@@ -3577,8 +3650,8 @@ function show_parent(){
    input = document.getElementById("myInput1");
    filter = input.value.toUpperCase();
    div = document.getElementById("myDropdown1");
-   a = div.getElementsByClassName('opt');
-   b = div.getElementsByTagName('li');
+  a = div.getElementsByClassName('opt');
+  b = div.getElementsByTagName('li');
 
    for (i = 0; i < a.length; i++) {
      txtValue = a[i].textContent||a[i].innerText;
